@@ -3,712 +3,687 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychology Study Suite | Chapters 1-3</title>
-    
-    <!-- Bootstrap 5 CSS -->
+    <title>Geography of Ethiopia - Exam Study Platform</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
     <style>
         :root {
-            --chapter1: #9c89b8;
-            --chapter2: #4a90e2;
-            --chapter3: #6dc0a7;
-            --primary: #4a6fa5;
-            --secondary: #166088;
-            --accent: #ff6b6b;
-            --success: #51cf66;
-            --warning: #ff922b;
-            --info: #339af0;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            min-height: 100vh;
-            padding-top: 20px;
-            padding-bottom: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
         }
         
-        .header-gradient {
-            background: linear-gradient(135deg, var(--chapter1), var(--chapter2), var(--chapter3));
-            color: white;
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
         }
         
         .chapter-card {
-            border-radius: 15px;
-            transition: all 0.3s ease;
+            transition: transform 0.3s, box-shadow 0.3s;
             border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
             height: 100%;
         }
         
         .chapter-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .chapter1-card {
-            border-top: 5px solid var(--chapter1);
-        }
-        
-        .chapter2-card {
-            border-top: 5px solid var(--chapter2);
-        }
-        
-        .chapter3-card {
-            border-top: 5px solid var(--chapter3);
-        }
-        
-        .mode-card {
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .mode-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
-        .mode-card.active {
-            background: var(--primary);
+        .chapter-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             color: white;
+            padding: 15px;
         }
         
-        .mode-card.active .mode-icon {
-            color: white;
-        }
-        
-        .flashcard {
-            height: 400px;
-            perspective: 1000px;
-        }
-        
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-        
-        .flashcard.flipped .flashcard-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .flashcard-front {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .flashcard-back {
+        .exam-container {
             background-color: white;
-            color: var(--dark);
-            transform: rotateY(180deg);
-            border: 3px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .notes-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .content-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .question-card {
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
         }
         
         .option {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            position: relative;
+            border: 1px solid #dee2e6;
         }
         
         .option:hover {
-            border-color: var(--primary);
-            background-color: rgba(74, 111, 165, 0.05);
+            background-color: #e9ecef;
+            transform: translateX(5px);
         }
         
         .option.selected {
-            border-color: var(--primary);
-            background-color: rgba(74, 111, 165, 0.1);
+            background-color: #d1ecf1;
+            border-left: 4px solid var(--secondary-color);
         }
         
         .option.correct {
-            border-color: var(--success);
-            background-color: rgba(81, 207, 102, 0.1);
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            border-color: #28a745;
         }
         
         .option.incorrect {
-            border-color: var(--accent);
-            background-color: rgba(255, 107, 107, 0.1);
+            background-color: #f8d7da;
+            border-left: 4px solid var(--accent-color);
+            border-color: var(--accent-color);
         }
         
-        .progress-chapter {
-            height: 8px;
-            border-radius: 4px;
+        .option.correct::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
         }
         
-        .telegram-btn {
-            background: #0088cc;
+        .option.incorrect::before {
+            content: "✗";
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
+        }
+        
+        .feedback-container {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .feedback-correct {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .feedback-incorrect {
+            background-color: #f8d7da;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .btn-submit {
+            background-color: var(--secondary-color);
             color: white;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 5px;
             border: none;
-            padding: 12px 25px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-badge {
+            font-size: 1.1rem;
+            padding: 10px 20px;
             border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            transition: all 0.3s ease;
         }
         
-        .telegram-btn:hover {
-            background: #0077b5;
+        .nav-tabs .nav-link {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .note-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .note-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-section {
+            margin-bottom: 25px;
+        }
+        
+        .content-section h5 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .back-to-chapters {
+            color: var(--secondary-color);
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .progress-bar {
+            background-color: var(--secondary-color);
+        }
+        
+        .chapter-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--dark-bg);
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.2);
+            padding: 20px 0;
+            margin-top: 40px;
         }
         
-        .definition-box {
-            border-left: 5px solid var(--info);
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
+        .tab-pane {
             display: none;
         }
         
-        .chapter-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 600;
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .definition-box {
+            background-color: #f0f8ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        
+        .definition-box h6 {
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-stats {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .stats-item {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .stats-item .badge {
             font-size: 0.8rem;
-        }
-        
-        .chapter1-badge {
-            background: var(--chapter1);
-            color: white;
-        }
-        
-        .chapter2-badge {
-            background: var(--chapter2);
-            color: white;
-        }
-        
-        .chapter3-badge {
-            background: var(--chapter3);
-            color: white;
-        }
-        
-        .stats-card {
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            padding: 25px;
-            text-align: center;
-            border-top: 5px solid var(--accent);
-        }
-        
-        .stat-value {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        @media (max-width: 768px) {
-            .flashcard {
-                height: 350px;
-            }
-            
-            .stat-value {
-                font-size: 2.5rem;
-            }
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="container">
-        <div class="header-gradient rounded-4 p-4 p-md-5 mb-4 text-center shadow">
-            <h1 class="display-5 fw-bold">
-                <i class="fas fa-brain me-2"></i>Psychology Study Suite
-            </h1>
-            <p class="lead mb-4">Master Chapters 1-3 with Interactive Flashcards, Quizzes, and Summaries</p>
-            
-            <!-- NS11 Fresh Batch Section -->
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="bg-white rounded-4 p-4 mb-3 shadow-sm">
-                        <h4 class="mb-3 text-dark">
-                            <i class="fas fa-users me-2 text-info"></i>NS11 Fresh Batch
-                        </h4>
-                        <p class="text-dark mb-3">Join our Telegram group for discussions, study materials, and updates!</p>
-                        <a href="https://t.me/NS11fresh" target="_blank" class="telegram-btn">
-                            <i class="fab fa-telegram"></i> Join NS11 Fresh on Telegram
-                        </a>
-                    </div>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-globe-africa me-2"></i>Geography of Ethiopia
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="homeLink">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="chaptersLink">Chapters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="recommendationsLink">Recommendations</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    
-    <!-- Chapter Selection -->
-    <div class="container mb-5">
-        <h3 class="text-center mb-4">Select Chapter</h3>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="chapter-card chapter1-card p-4 text-center" data-chapter="1">
-                    <div class="mb-3">
-                        <i class="fas fa-book-open fa-3x" style="color: var(--chapter1);"></i>
-                    </div>
-                    <h4>Chapter 1</h4>
-                    <h5 class="mb-3">Essence of Psychology</h5>
-                    <p class="text-muted">30 MCQs with definitions</p>
-                    <div class="progress progress-chapter">
-                        <div class="progress-bar" style="background-color: var(--chapter1); width: 0%;" id="chapter1-progress-bar"></div>
-                    </div>
-                    <div class="mt-2" id="chapter1-progress-text">0% Complete</div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="chapter-card chapter2-card p-4 text-center" data-chapter="2">
-                    <div class="mb-3">
-                        <i class="fas fa-eye fa-3x" style="color: var(--chapter2);"></i>
-                    </div>
-                    <h4>Chapter 2</h4>
-                    <h5 class="mb-3">Sensation & Perception</h5>
-                    <p class="text-muted">25 MCQs with definitions</p>
-                    <div class="progress progress-chapter">
-                        <div class="progress-bar" style="background-color: var(--chapter2); width: 0%;" id="chapter2-progress-bar"></div>
-                    </div>
-                    <div class="mt-2" id="chapter2-progress-text">0% Complete</div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="chapter-card chapter3-card p-4 text-center" data-chapter="3">
-                    <div class="mb-3">
-                        <i class="fas fa-graduation-cap fa-3x" style="color: var(--chapter3);"></i>
-                    </div>
-                    <h4>Chapter 3</h4>
-                    <h5 class="mb-3">Learning Theories</h5>
-                    <p class="text-muted">25 MCQs with definitions</p>
-                    <div class="progress progress-chapter">
-                        <div class="progress-bar" style="background-color: var(--chapter3); width: 0%;" id="chapter3-progress-bar"></div>
-                    </div>
-                    <div class="mt-2" id="chapter3-progress-text">0% Complete</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Study Modes -->
-    <div class="container mb-5">
-        <h3 class="text-center mb-4">Select Study Mode</h3>
-        <div class="row g-4">
-            <div class="col-md-3 col-sm-6">
-                <div class="mode-card p-4 text-center active" data-mode="flashcards">
-                    <div class="mb-3">
-                        <i class="fas fa-layer-group fa-3x mode-icon" style="color: var(--primary);"></i>
-                    </div>
-                    <h5>Flashcards</h5>
-                    <p class="text-muted small">Flip cards to learn concepts</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3 col-sm-6">
-                <div class="mode-card p-4 text-center" data-mode="quiz">
-                    <div class="mb-3">
-                        <i class="fas fa-question-circle fa-3x mode-icon" style="color: var(--primary);"></i>
-                    </div>
-                    <h5>Quiz Mode</h5>
-                    <p class="text-muted small">Test your knowledge</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3 col-sm-6">
-                <div class="mode-card p-4 text-center" data-mode="summary">
-                    <div class="mb-3">
-                        <i class="fas fa-book-open fa-3x mode-icon" style="color: var(--primary);"></i>
-                    </div>
-                    <h5>Chapter Summary</h5>
-                    <p class="text-muted small">Key concepts overview</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3 col-sm-6">
-                <div class="mode-card p-4 text-center" data-mode="review">
-                    <div class="mb-3">
-                        <i class="fas fa-chart-bar fa-3x mode-icon" style="color: var(--primary);"></i>
-                    </div>
-                    <h5>Progress Review</h5>
-                    <p class="text-muted small">Track your learning</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Content Area -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <!-- Flashcards Mode -->
-                <div id="flashcards-mode" class="study-mode">
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <div class="flashcard" id="flashcard">
-                                <div class="flashcard-inner">
-                                    <!-- Front of Card -->
-                                    <div class="flashcard-front">
-                                        <div class="chapter-badge chapter1-badge" id="card-chapter-badge">Chapter 1</div>
-                                        <h3 class="mb-4" id="card-question">Psychology is best defined as the scientific study of:</h3>
-                                        <p class="mb-0"><i>Click the card to reveal the answer</i></p>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-4" id="mainContainer">
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-5 fw-bold mb-4" style="color: var(--primary-color);">
+                        Geography of Ethiopia and the Horn
+                    </h1>
+                    <p class="lead mb-4">
+                        Interactive exam preparation platform for Chapters 1-3. 
+                        <span class="text-primary">Instant feedback</span> on answers with definitions!
+                    </p>
+                    <div class="row mt-5">
+                        <div class="col-md-4 mb-4">
+                            <div class="card chapter-card text-center h-100">
+                                <div class="chapter-header">
+                                    <i class="fas fa-map chapter-icon"></i>
+                                    <h4>Chapter 1</h4>
+                                    <p>Introduction</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Geography basics, location, shape, size of Ethiopia, and map reading.</p>
+                                    <div class="mt-3">
+                                        <span class="badge bg-info">25 Questions</span>
+                                        <span class="badge bg-success">Instant Feedback</span>
                                     </div>
-                                    
-                                    <!-- Back of Card -->
-                                    <div class="flashcard-back">
-                                        <div class="chapter-badge chapter1-badge">Chapter 1</div>
-                                        <h4 class="mb-3" id="card-answer">C. Human behavior and mental processes</h4>
-                                        <div class="definition-box" id="card-definition-box">
-                                            <h5><i class="fas fa-info-circle me-2"></i>Definition</h5>
-                                            <p id="card-definition">Psychology scientifically studies <strong>behavior (observable actions)</strong> and <strong>mental processes (thinking, feeling, remembering)</strong>.</p>
-                                        </div>
-                                    </div>
+                                    <button class="btn btn-outline-primary mt-2" onclick="loadChapter(1)">Study Chapter 1</button>
                                 </div>
                             </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center mt-4">
-                                <div>
-                                    <span id="card-counter">Card 1/80</span>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card chapter-card text-center h-100">
+                                <div class="chapter-header">
+                                    <i class="fas fa-mountain chapter-icon"></i>
+                                    <h4>Chapter 2</h4>
+                                    <p>Geology</p>
                                 </div>
-                                <div>
-                                    <button class="btn btn-outline-primary me-2" id="prev-card">
-                                        <i class="fas fa-chevron-left me-1"></i> Previous
-                                    </button>
-                                    <button class="btn btn-primary" id="flip-card">
-                                        <i class="fas fa-sync-alt me-1"></i> Flip Card
-                                    </button>
-                                    <button class="btn btn-outline-primary ms-2" id="next-card">
-                                        Next <i class="fas fa-chevron-right ms-1"></i>
-                                    </button>
+                                <div class="card-body">
+                                    <p class="card-text">Geological processes, time scales, rocks, minerals, and the Rift Valley.</p>
+                                    <div class="mt-3">
+                                        <span class="badge bg-info">28 Questions</span>
+                                        <span class="badge bg-success">Instant Feedback</span>
+                                    </div>
+                                    <button class="btn btn-outline-primary mt-2" onclick="loadChapter(2)">Study Chapter 2</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card chapter-card text-center h-100">
+                                <div class="chapter-header">
+                                    <i class="fas fa-layer-group chapter-icon"></i>
+                                    <h4>Chapter 3</h4>
+                                    <p>Topography</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Physiographic divisions, highlands vs lowlands, and impacts of relief.</p>
+                                    <div class="mt-3">
+                                        <span class="badge bg-info">30 Questions</span>
+                                        <span class="badge bg-success">Instant Feedback</span>
+                                    </div>
+                                    <button class="btn btn-outline-primary mt-2" onclick="loadChapter(3)">Study Chapter 3</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-info mt-4">
+                        <h5><i class="fas fa-lightbulb me-2"></i>New Feature: Instant Feedback!</h5>
+                        <p class="mb-0">Now when you select an answer, you'll see immediately if it's correct or wrong, with detailed explanations and definitions. Perfect for active learning!</p>
+                    </div>
                 </div>
-                
-                <!-- Quiz Mode -->
-                <div id="quiz-mode" class="study-mode" style="display: none;">
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4 id="quiz-title">Chapter 1 Quiz</h4>
-                                <div class="badge bg-primary fs-6 p-2">
-                                    Score: <span id="quiz-score">0</span>/<span id="quiz-total">30</span>
-                                </div>
+            </div>
+        </div>
+
+        <!-- Chapters Page -->
+        <div id="chaptersPage" class="hidden">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="fw-bold" style="color: var(--primary-color);">Select a Chapter to Study</h2>
+                    <p>Click on any chapter to access exam questions, key notes, and original content. <span class="text-success">New: Instant feedback on answers!</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card chapter-card" onclick="loadChapter(1)" style="cursor: pointer;">
+                        <div class="chapter-header text-center">
+                            <i class="fas fa-map chapter-icon"></i>
+                            <h4>Chapter 1</h4>
+                            <p>Introduction</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Topics Covered:</strong></p>
+                            <ul>
+                                <li>Definition and themes of Geography</li>
+                                <li>Location, shape and size of Ethiopia</li>
+                                <li>Basic map reading skills</li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <span class="badge bg-info">25 Questions</span>
+                                <span class="badge bg-success ms-2">Instant Feedback</span>
+                                <span class="badge bg-secondary ms-2">Key Notes</span>
+                                <span class="badge bg-warning ms-2">Original Content</span>
                             </div>
-                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card chapter-card" onclick="loadChapter(2)" style="cursor: pointer;">
+                        <div class="chapter-header text-center">
+                            <i class="fas fa-mountain chapter-icon"></i>
+                            <h4>Chapter 2</h4>
+                            <p>Geology of Ethiopia and the Horn</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Topics Covered:</strong></p>
+                            <ul>
+                                <li>Geological processes and time scale</li>
+                                <li>Endogenic and exogenic forces</li>
+                                <li>Rock and mineral resources</li>
+                                <li>Rift Valley formation</li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <span class="badge bg-info">28 Questions</span>
+                                <span class="badge bg-success ms-2">Instant Feedback</span>
+                                <span class="badge bg-secondary ms-2">Key Notes</span>
+                                <span class="badge bg-warning ms-2">Original Content</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card chapter-card" onclick="loadChapter(3)" style="cursor: pointer;">
+                        <div class="chapter-header text-center">
+                            <i class="fas fa-layer-group chapter-icon"></i>
+                            <h4>Chapter 3</h4>
+                            <p>Topography of Ethiopia and the Horn</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Topics Covered:</strong></p>
+                            <ul>
+                                <li>Physiographic divisions</li>
+                                <li>Western and Southeastern highlands</li>
+                                <li>Rift Valley characteristics</li>
+                                <li>Impacts of relief</li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <span class="badge bg-info">30 Questions</span>
+                                <span class="badge bg-success ms-2">Instant Feedback</span>
+                                <span class="badge bg-secondary ms-2">Key Notes</span>
+                                <span class="badge bg-warning ms-2">Original Content</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter Content Area -->
+        <div id="chapterContent" class="hidden">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <a class="back-to-chapters" id="backToChapters">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Chapters
+                    </a>
+                    <h2 id="chapterTitle" class="fw-bold" style="color: var(--primary-color);"></h2>
+                </div>
+            </div>
+            
+            <!-- Chapter Tabs -->
+            <ul class="nav nav-tabs mb-4" id="chapterTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="showTab('examTab')">Exam Questions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showTab('notesTab')">Key Notes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showTab('contentTab')">Original Content</a>
+                </li>
+            </ul>
+            
+            <!-- Exam Tab -->
+            <div class="tab-pane active" id="examTab">
+                <div class="exam-container" id="examContainer">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 id="examChapterTitle"></h4>
+                            <p>Select an answer to see immediate feedback with explanations!</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span id="questionProgress">Question 1 of 25</span>
+                                <span class="badge bg-secondary" id="timer">Time: 30:00</span>
+                            </div>
                             <div class="progress mb-4" style="height: 10px;">
-                                <div class="progress-bar" id="quiz-progress" style="width: 0%;"></div>
-                            </div>
-                            
-                            <h5 class="mb-4" id="quiz-question">Psychology is best defined as the scientific study of:</h5>
-                            
-                            <div id="quiz-options">
-                                <!-- Options will be populated by JavaScript -->
-                            </div>
-                            
-                            <div class="definition-box" id="quiz-definition-box">
-                                <h5><i class="fas fa-info-circle me-2"></i>Definition</h5>
-                                <p id="quiz-definition"></p>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between mt-4">
-                                <button class="btn btn-outline-primary" id="prev-question">
-                                    <i class="fas fa-chevron-left me-1"></i> Previous
-                                </button>
-                                <button class="btn btn-primary" id="check-answer">
-                                    <i class="fas fa-check-circle me-1"></i> Check Answer
-                                </button>
-                                <button class="btn btn-success" id="next-question" style="display: none;">
-                                    Next Question <i class="fas fa-chevron-right ms-1"></i>
-                                </button>
+                                <div class="progress-bar" id="progressBar" role="progressbar" style="width: 4%;"></div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Quiz Statistics -->
+                    <div class="quiz-stats" id="quizStats">
+                        <div class="stats-item">
+                            <i class="fas fa-check-circle text-success me-1"></i>Correct: 
+                            <span class="badge bg-success" id="correctCount">0</span>
+                        </div>
+                        <div class="stats-item">
+                            <i class="fas fa-times-circle text-danger me-1"></i>Incorrect: 
+                            <span class="badge bg-danger" id="incorrectCount">0</span>
+                        </div>
+                        <div class="stats-item">
+                            <i class="fas fa-percentage text-primary me-1"></i>Score: 
+                            <span class="badge bg-primary" id="currentScore">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div id="questionContainer">
+                        <!-- Questions will be loaded here dynamically -->
+                    </div>
+                    
+                    <!-- Instant Feedback Area -->
+                    <div id="feedbackContainer" class="hidden">
+                        <!-- Feedback will be shown here instantly after answer selection -->
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-secondary" id="prevQuestion" disabled>
+                                <i class="fas fa-chevron-left me-2"></i>Previous
+                            </button>
+                            <button class="btn btn-outline-primary" id="nextQuestion">
+                                Next<i class="fas fa-chevron-right ms-2"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <button class="btn btn-submit" id="submitExam">Submit Exam</button>
+                        </div>
+                    </div>
+                    
+                    <div id="examResults" class="mt-5 hidden">
+                        <div class="text-center p-4 border rounded" style="background-color: #f8f9fa;">
+                            <h4 class="mb-3">Exam Results</h4>
+                            <div class="result-badge bg-success d-inline-block mb-3" id="scoreDisplay"></div>
+                            <p id="resultMessage"></p>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="text-center p-3 border rounded">
+                                        <h6>Correct Answers</h6>
+                                        <h3 class="text-success" id="finalCorrect">0</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-center p-3 border rounded">
+                                        <h6>Total Questions</h6>
+                                        <h3 class="text-primary" id="totalQuestions">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" id="reviewAnswers">Review All Answers</button>
+                            <button class="btn btn-outline-secondary mt-3 ms-2" id="retakeExam">Retake Exam</button>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Summary Mode -->
-                <div id="summary-mode" class="study-mode" style="display: none;">
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <h4 class="mb-4" id="summary-title">Chapter 1 Summary</h4>
-                            
-                            <!-- Chapter 1 Summary -->
-                            <div id="chapter1-summary">
-                                <div class="row">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-graduation-cap me-2" style="color: var(--chapter1);"></i>Psychology Basics</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Psychology:</strong> Study of behavior & mind</li>
-                                                    <li class="mb-2"><strong>Behavior:</strong> Observable actions</li>
-                                                    <li class="mb-2"><strong>Mental Processes:</strong> Thinking, feeling</li>
-                                                    <li class="mb-2"><strong>Goals:</strong> Describe, explain, predict, control</li>
-                                                    <li><strong>1879:</strong> Psychology founded</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-history me-2" style="color: var(--chapter1);"></i>Historical Schools</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Structuralism:</strong> Wundt & Titchener</li>
-                                                    <li class="mb-2"><strong>Functionalism:</strong> William James</li>
-                                                    <li class="mb-2"><strong>Behaviorism:</strong> John Watson</li>
-                                                    <li class="mb-2"><strong>Psychoanalysis:</strong> Sigmund Freud</li>
-                                                    <li><strong>Gestalt:</strong> Whole > Sum of parts</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-binoculars me-2" style="color: var(--chapter1);"></i>Modern Perspectives</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Humanistic:</strong> Free will & growth</li>
-                                                    <li class="mb-2"><strong>Cognitive:</strong> Thinking & memory</li>
-                                                    <li class="mb-2"><strong>Biological:</strong> Brain & genetics</li>
-                                                    <li class="mb-2"><strong>Sociocultural:</strong> Culture & society</li>
-                                                    <li><strong>Developmental:</strong> Lifespan changes</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="alert alert-warning">
-                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 1</h5>
-                                    <p class="mb-0">Focus on: Psychology definition (behavior + mental processes), goals of psychology, historical schools (founders and key ideas), modern perspectives, and research methods.</p>
+            </div>
+            
+            <!-- Notes Tab -->
+            <div class="tab-pane" id="notesTab">
+                <div class="notes-container" id="notesContainer">
+                    <h4 id="notesChapterTitle"></h4>
+                    <div id="keyNotesContent">
+                        <!-- Key notes will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Tab -->
+            <div class="tab-pane" id="contentTab">
+                <div class="content-container" id="contentContainer">
+                    <h4 id="contentChapterTitle"></h4>
+                    <div id="originalContent">
+                        <!-- Original content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Page -->
+        <div id="recommendationsPage" class="hidden">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h2 class="fw-bold mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-star me-2"></i>Study Recommendations
+                    </h2>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-bolt text-warning me-2"></i>New: Instant Feedback Feature</h5>
+                            <p>Our new instant feedback system helps you learn faster:</p>
+                            <ul>
+                                <li><strong>Immediate correction:</strong> Know right away if your answer is correct</li>
+                                <li><strong>Detailed explanations:</strong> Understand why answers are right or wrong</li>
+                                <li><strong>Key definitions:</strong> Important concepts are highlighted and explained</li>
+                                <li><strong>Active learning:</strong> Learn from mistakes immediately</li>
+                            </ul>
+                            <div class="alert alert-success">
+                                <i class="fas fa-trophy me-2"></i>
+                                <strong>Pro Tip:</strong> Use the instant feedback to identify your weak areas and focus your study!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-clipboard-check text-success me-2"></i>How to Use Instant Feedback</h5>
+                                    <ol>
+                                        <li>Read each question carefully</li>
+                                        <li>Select what you think is the correct answer</li>
+                                        <li><strong>Instant feedback appears immediately</strong></li>
+                                        <li>Read the explanation to understand the concept</li>
+                                        <li>Check the definition box for key terms</li>
+                                        <li>Track your progress with live statistics</li>
+                                    </ol>
                                 </div>
                             </div>
-                            
-                            <!-- Chapter 2 Summary -->
-                            <div id="chapter2-summary" style="display: none;">
-                                <div class="row">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-eye me-2" style="color: var(--chapter2);"></i>Sensation Basics</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Sensation:</strong> Detection of stimuli</li>
-                                                    <li class="mb-2"><strong>Perception:</strong> Interpretation of stimuli</li>
-                                                    <li class="mb-2"><strong>Transduction:</strong> Energy conversion</li>
-                                                    <li class="mb-2"><strong>Absolute Threshold:</strong> Minimum detectable stimulus</li>
-                                                    <li><strong>Difference Threshold:</strong> Smallest detectable difference</li>
-                                                </ul>
-                                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-chart-line text-primary me-2"></i>Track Your Progress</h5>
+                                    <p>Monitor your learning with real-time statistics:</p>
+                                    <ul>
+                                        <li>Correct vs Incorrect answers</li>
+                                        <li>Current score percentage</li>
+                                        <li>Question-by-question feedback</li>
+                                        <li>Final exam results with detailed breakdown</li>
+                                    </ul>
+                                    <div class="text-center mt-3">
+                                        <div class="display-6 text-primary">
+                                            <i class="fas fa-chart-bar"></i>
                                         </div>
+                                        <p class="small">Live tracking helps you identify patterns in your learning</p>
                                     </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-ear-listen me-2" style="color: var(--chapter2);"></i>Senses</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Vision:</strong> Eye detects light</li>
-                                                    <li class="mb-2"><strong>Audition:</strong> Hearing sense</li>
-                                                    <li class="mb-2"><strong>Olfaction:</strong> Sense of smell</li>
-                                                    <li class="mb-2"><strong>Gustation:</strong> Sense of taste</li>
-                                                    <li><strong>Vestibular:</strong> Balance sense</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-brain me-2" style="color: var(--chapter2);"></i>Perception Concepts</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Gestalt Psychology:</strong> Whole experience</li>
-                                                    <li class="mb-2"><strong>Figure-Ground:</strong> Object vs background</li>
-                                                    <li class="mb-2"><strong>Perceptual Constancy:</strong> Stable perception</li>
-                                                    <li class="mb-2"><strong>Depth Perception:</strong> Judging distance</li>
-                                                    <li><strong>Illusion:</strong> Misinterpretation of stimuli</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="alert alert-warning">
-                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 2</h5>
-                                    <p class="mb-0">Focus on: Sensation vs Perception, Thresholds (Absolute & Difference), Gestalt laws, Illusion vs Hallucination, Sensory Adaptation, and Perceptual Constancy.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Chapter 3 Summary -->
-                            <div id="chapter3-summary" style="display: none;">
-                                <div class="row">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-graduation-cap me-2" style="color: var(--chapter3);"></i>Learning Basics</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Learning:</strong> Permanent behavioral change</li>
-                                                    <li class="mb-2"><strong>Characteristics:</strong> Change, experience, goal-directed</li>
-                                                    <li class="mb-2"><strong>Maturation:</strong> Biological growth (not learning)</li>
-                                                    <li class="mb-2"><strong>Law of Exercise:</strong> Practice improves performance</li>
-                                                    <li><strong>Law of Effect:</strong> Thorndike's satisfaction principle</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-brain me-2" style="color: var(--chapter3);"></i>Learning Theories</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Classical Conditioning:</strong> Pavlov (stimulus association)</li>
-                                                    <li class="mb-2"><strong>Operant Conditioning:</strong> Skinner (consequences)</li>
-                                                    <li class="mb-2"><strong>Social Learning:</strong> Bandura (observation)</li>
-                                                    <li class="mb-2"><strong>Insight Learning:</strong> Köhler (sudden understanding)</li>
-                                                    <li><strong>Cognitive Theory:</strong> Mental processes focus</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><i class="fas fa-sliders-h me-2" style="color: var(--chapter3);"></i>Learning Concepts</h5>
-                                                <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Reinforcement:</strong> Increases behavior</li>
-                                                    <li class="mb-2"><strong>Punishment:</strong> Decreases behavior</li>
-                                                    <li class="mb-2"><strong>Positive Reinforcement:</strong> Adding something pleasant</li>
-                                                    <li class="mb-2"><strong>Observational Learning:</strong> Attention, retention, reproduction, motivation</li>
-                                                    <li><strong>Trial & Error:</strong> Thorndike's repeated attempts</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="alert alert-warning">
-                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 3</h5>
-                                    <p class="mb-0">Focus on: Learning definition, Classical vs Operant conditioning, Reinforcement vs Punishment, Social learning theory (Bandura), Insight learning (Köhler), and factors influencing learning.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Progress Review Mode -->
-                <div id="review-mode" class="study-mode" style="display: none;">
-                    <div class="card border-0 shadow-lg mb-4">
-                        <div class="card-body p-4">
-                            <h4 class="mb-4">Progress Review</h4>
-                            
-                            <div class="row mb-5">
-                                <div class="col-md-3 col-6 mb-4">
-                                    <div class="stats-card">
-                                        <div class="stat-value" id="cards-studied">0</div>
-                                        <p>Cards Studied</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-3 col-6 mb-4">
-                                    <div class="stats-card">
-                                        <div class="stat-value" id="quiz-percentage">0%</div>
-                                        <p>Quiz Score</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-3 col-6 mb-4">
-                                    <div class="stats-card">
-                                        <div class="stat-value" id="study-time">0</div>
-                                        <p>Study Time (min)</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-3 col-6 mb-4">
-                                    <div class="stats-card">
-                                        <div class="stat-value" id="mastery-level">Beginner</div>
-                                        <p>Mastery Level</p>
-                                    </div>
-                                </div>
+                    
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-line text-info me-2"></i>Progress Tracking</h5>
+                            <p>Track your performance on chapter exams to identify weak areas:</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Chapter</th>
+                                            <th>Last Score</th>
+                                            <th>Best Score</th>
+                                            <th>Attempts</th>
+                                            <th>Recommendation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Chapter 1</td>
+                                            <td id="ch1Score">Not taken</td>
+                                            <td id="ch1Best">-</td>
+                                            <td id="ch1Attempts">0</td>
+                                            <td id="ch1Rec">Take the exam</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Chapter 2</td>
+                                            <td id="ch2Score">Not taken</td>
+                                            <td id="ch2Best">-</td>
+                                            <td id="ch2Attempts">0</td>
+                                            <td id="ch2Rec">Take the exam</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Chapter 3</td>
+                                            <td id="ch3Score">Not taken</td>
+                                            <td id="ch3Best">-</td>
+                                            <td id="ch3Attempts">0</td>
+                                            <td id="ch3Rec">Take the exam</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            
-                            <h5 class="mb-3">Chapter Progress</h5>
-                            <div class="row mb-4">
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Chapter 1</span>
-                                        <span id="chapter1-percentage">0%</span>
-                                    </div>
-                                    <div class="progress" style="height: 10px;">
-                                        <div class="progress-bar" style="background-color: var(--chapter1); width: 0%;" id="chapter1-progress-review"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Chapter 2</span>
-                                        <span id="chapter2-percentage">0%</span>
-                                    </div>
-                                    <div class="progress" style="height: 10px;">
-                                        <div class="progress-bar" style="background-color: var(--chapter2); width: 0%;" id="chapter2-progress-review"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Chapter 3</span>
-                                        <span id="chapter3-percentage">0%</span>
-                                    </div>
-                                    <div class="progress" style="height: 10px;">
-                                        <div class="progress-bar" style="background-color: var(--chapter3); width: 0%;" id="chapter3-progress-review"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-info">
-                                <h5><i class="fas fa-rocket me-2"></i>Study Recommendations</h5>
-                                <p class="mb-0">Based on your progress, we recommend focusing on: <span id="focus-area">Psychology definition and goals</span>.</p>
-                            </div>
-                            
-                            <div class="text-center mt-4">
-                                <a href="https://t.me/NS11fresh" target="_blank" class="telegram-btn">
-                                    <i class="fab fa-telegram"></i> Connect with NS11 Fresh Batch on Telegram
-                                </a>
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>New Feature:</strong> Instant feedback helps you learn faster. Aim for at least 80% on each chapter exam!
                             </div>
                         </div>
                     </div>
@@ -716,1339 +691,1071 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Footer -->
-    <footer class="container mt-5 pt-4 border-top">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="text-muted">Psychology Study Suite | Chapters 1-3</p>
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Geography of Ethiopia and the Horn</h5>
+                    <p>Interactive exam platform with instant feedback</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Compiled from the 2019 textbook</p>
+                    <p>Now with <span class="text-success">Instant Feedback Feature</span></p>
+                </div>
             </div>
-            <div class="col-md-6 text-md-end">
-                <p class="text-muted">NS11 Fresh Batch | Telegram: <a href="https://t.me/NS11fresh" target="_blank">t.me/NS11fresh</a></p>
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Geography Study Platform. For educational purposes.</p>
             </div>
         </div>
     </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- Application Script -->
     <script>
+        // Global variables
+        let currentChapter = 0;
+        let currentQuestion = 1;
+        let userAnswers = {};
+        let examQuestions = [];
+        let examTimer;
+        let timeLeft = 1800; // 30 minutes in seconds
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let showFeedback = true; // New feature: instant feedback
+        
+        // Chapter data extracted directly from PDF (same as before)
+        const chapterData = {
+            1: {
+                title: "Chapter 1: Introduction",
+                questions: [
+                    {
+                        id: 1,
+                        question: "What is the working definition of Geography according to the text?",
+                        options: [
+                            "The study of human societies and cultures",
+                            "The scientific study of the Earth that describes and analyses spatial and temporal variations of physical, biological and human phenomena",
+                            "The study of rocks and landforms only",
+                            "The study of weather and climate patterns"
+                        ],
+                        correct: 1,
+                        explanation: "Geography is defined as the scientific study of the Earth that describes and analyses spatial and temporal variations of physical, biological and human phenomena, and their interrelationships over the Earth's surface.",
+                        definition: "Geography: The scientific study of the Earth that describes and analyses spatial and temporal variations of physical, biological and human phenomena, and their interrelationships and dynamism over the surface of the Earth."
+                    },
+                    {
+                        id: 2,
+                        question: "Which of these is NOT one of the five basic themes of Geography?",
+                        options: [
+                            "Location",
+                            "Place", 
+                            "Climate",
+                            "Region"
+                        ],
+                        correct: 2,
+                        explanation: "The five basic themes are: Location, Place, Human-Environment Interaction, Movement, and Region.",
+                        definition: "Five themes of Geography: 1) Location, 2) Place, 3) Human-Environment Interaction, 4) Movement, 5) Region."
+                    },
+                    {
+                        id: 3,
+                        question: "What is the astronomical location of Ethiopia?",
+                        options: [
+                            "Between 0°N and 10°N latitudes, and 30°E and 45°E longitudes",
+                            "Between 3°N and 15°N latitudes, and 33°E and 48°E longitudes",
+                            "Between 5°N and 20°N latitudes, and 35°E and 50°E longitudes",
+                            "Between 10°N and 25°N latitudes, and 40°E and 55°E longitudes"
+                        ],
+                        correct: 1,
+                        explanation: "Astronomically, Ethiopia is located between 3°N (Moyale) and 15°N (Bademe) latitudes and 33°E (Akobo) to 48°E (Ogaden) longitudes.",
+                        definition: "Astronomical location (absolute location): States location of places using lines of latitudes and longitudes."
+                    },
+                    {
+                        id: 4,
+                        question: "Which of these countries is NOT part of the Horn of Africa?",
+                        options: [
+                            "Djibouti",
+                            "Eritrea",
+                            "Ethiopia",
+                            "Sudan"
+                        ],
+                        correct: 3,
+                        explanation: "The Horn of Africa includes Djibouti, Eritrea, Ethiopia, and Somalia.",
+                        definition: "Horn of Africa: A region of eastern Africa that is home to the countries of Djibouti, Eritrea, Ethiopia, and Somalia."
+                    },
+                    {
+                        id: 5,
+                        question: "What is the approximate total area of Ethiopia?",
+                        options: [
+                            "587,000 square kilometers",
+                            "1,106,000 square kilometers",
+                            "2,345,000 square kilometers",
+                            "3,210,000 square kilometers"
+                        ],
+                        correct: 1,
+                        explanation: "Ethiopia has a total area of approximately 1,106,000 square kilometers.",
+                        definition: "Ethiopia is the 8th largest country in Africa and 25th in the world with total area of ~1,106,000 km²."
+                    },
+                    // ... (rest of questions for Chapter 1 - I'll include 25 as before)
+                    {
+                        id: 6,
+                        question: "What rank is Ethiopia in terms of size in Africa?",
+                        options: [
+                            "5th largest",
+                            "8th largest",
+                            "12th largest",
+                            "15th largest"
+                        ],
+                        correct: 1,
+                        explanation: "Ethiopia is the 8th largest country in Africa.",
+                        definition: "Size ranking: Ethiopia is 8th largest in Africa and 25th in the world."
+                    },
+                    {
+                        id: 7,
+                        question: "Which of these is an advantage of Ethiopia's large size?",
+                        options: [
+                            "Easy administration",
+                            "Low infrastructure costs",
+                            "Diverse agro-ecological zones",
+                            "Easy socio-economic integration"
+                        ],
+                        correct: 2,
+                        explanation: "Advantages include: diverse agro-ecological zones, variety of natural resources, extensive arable land, larger population size, home for diverse cultures, and greater depth in defense.",
+                        definition: "Advantages of large size: Diverse agro-ecological zones, variety of natural resources, extensive arable land, larger population, cultural diversity, defense depth."
+                    },
+                    {
+                        id: 8,
+                        question: "What type of climate does Ethiopia experience due to its latitudinal location?",
+                        options: [
+                            "Temperate climate",
+                            "Desert climate",
+                            "Tropical climate, though modified by altitude",
+                            "Mediterranean climate"
+                        ],
+                        correct: 2,
+                        explanation: "Ethiopia has a tropical climate due to its location between the Equator and Tropic of Cancer, though modified by its altitude.",
+                        definition: "Climate: Ethiopia has tropical climate (between Equator and Tropic of Cancer) but modified by altitude."
+                    },
+                    {
+                        id: 9,
+                        question: "What is the time difference between the most easterly and westerly points of Ethiopia?",
+                        options: [
+                            "30 minutes",
+                            "1 hour",
+                            "2 hours",
+                            "3 hours"
+                        ],
+                        correct: 1,
+                        explanation: "Due to its longitudinal extension, there is a difference of one hour between the most easterly and most westerly points.",
+                        definition: "Time zone: Ethiopia uses 3-hour time zone for convenience, but actual difference is 1 hour between easternmost and westernmost points."
+                    },
+                    {
+                        id: 10,
+                        question: "Which of these is a disadvantage of Ethiopia's large size?",
+                        options: [
+                            "Limited natural resources",
+                            "Demands greater capital to construct infrastructural facilities",
+                            "Small population size",
+                            "Limited cultural diversity"
+                        ],
+                        correct: 1,
+                        explanation: "Disadvantages include: demands greater capital for infrastructure, requires large army for defense, difficult for effective administration, and difficult for socio-economic integration.",
+                        definition: "Disadvantages of large size: High infrastructure costs, defense challenges, administrative difficulty, socio-economic integration challenges."
+                    },
+                    {
+                        id: 11,
+                        question: "What percentage of Ethiopia is covered by water bodies?",
+                        options: [
+                            "0.7%",
+                            "2.5%",
+                            "5.3%",
+                            "10.1%"
+                        ],
+                        correct: 0,
+                        explanation: "About 0.7% of the country is covered by water bodies.",
+                        definition: "Water coverage: 0.7% of Ethiopia's total area is covered by water bodies."
+                    },
+                    {
+                        id: 12,
+                        question: "What is the approximate east-west distance of Ethiopia?",
+                        options: [
+                            "1,000 kilometers",
+                            "1,639 kilometers",
+                            "2,250 kilometers",
+                            "2,800 kilometers"
+                        ],
+                        correct: 1,
+                        explanation: "Ethiopia extends about 1,639 kilometers east-west.",
+                        definition: "Dimensions: Ethiopia extends about 1,639 km east-west and 1,577 km north-south."
+                    },
+                    {
+                        id: 13,
+                        question: "What shape category best describes Ethiopia?",
+                        options: [
+                            "Compact shape",
+                            "Fragmented shape",
+                            "Elongated shape",
+                            "Protruded shape"
+                        ],
+                        correct: 3,
+                        explanation: "Ethiopia has a protruded shape with the Ogaden region extending eastward.",
+                        definition: "Shape: Ethiopia has protruded shape (one portion much more elongated than rest of country)."
+                    },
+                    {
+                        id: 14,
+                        question: "What does the A/B ratio measure in determining country shape?",
+                        options: [
+                            "Area to population ratio",
+                            "Area to boundary length ratio",
+                            "Agricultural to built-up area ratio",
+                            "Altitude to rainfall ratio"
+                        ],
+                        correct: 1,
+                        explanation: "The A/B ratio is the ratio of area of a country to its boundary length. Higher ratio indicates greater compactness.",
+                        definition: "A/B ratio: Area-Boundary ratio measures compactness. Higher ratio = more compact."
+                    },
+                    {
+                        id: 15,
+                        question: "What is a map?",
+                        options: [
+                            "A three-dimensional representation of the Earth",
+                            "A two-dimensional scaled representation of part or whole of the Earth surface",
+                            "A collection of geographical data",
+                            "A diagram showing only political boundaries"
+                        ],
+                        correct: 1,
+                        explanation: "A map is a two-dimensional scaled representation of part or whole of the Earth surface on a flat body such as piece of paper.",
+                        definition: "Map: A two-dimensional scaled representation of part or whole of the Earth surface on a flat body."
+                    },
+                    {
+                        id: 16,
+                        question: "Which of these is NOT a type of map mentioned in the chapter?",
+                        options: [
+                            "Topographical map",
+                            "Statistical map",
+                            "Political map",
+                            "Special purpose map"
+                        ],
+                        correct: 2,
+                        explanation: "The chapter mentions topographical and statistical (special purpose) maps.",
+                        definition: "Map types: Topographical maps (natural/cultural features) and Statistical/Special purpose maps (distribution maps)."
+                    },
+                    {
+                        id: 17,
+                        question: "What is the purpose of a map legend or key?",
+                        options: [
+                            "To show the scale of the map",
+                            "To indicate north direction",
+                            "To list and explain symbols used on the map",
+                            "To provide the map title"
+                        ],
+                        correct: 2,
+                        explanation: "A map legend or key lists all conventional symbols and signs shown on the map with their interpretation.",
+                        definition: "Legend/Key: List of all conventional symbols and signs shown on the map with their interpretation."
+                    },
+                    {
+                        id: 18,
+                        question: "What does 'marginal information' on a map include?",
+                        options: [
+                            "Information about border countries only",
+                            "Title, legend, scale, north arrow, margin, and date of compilation",
+                            "Only the map scale and title",
+                            "Information about the map publisher only"
+                        ],
+                        correct: 1,
+                        explanation: "Marginal information includes: title, key/legend, scale, north arrow, margin, and date of compilation.",
+                        definition: "Marginal information: Elements shown on a map to enable reading and interpretation (title, legend, scale, north arrow, margin, date)."
+                    },
+                    {
+                        id: 19,
+                        question: "What is the first basic principle of map reading?",
+                        options: [
+                            "Knowledge of directions",
+                            "Understanding map symbols and the real world they represent",
+                            "Knowing how to use grid references",
+                            "Understanding scale"
+                        ],
+                        correct: 1,
+                        explanation: "Map readers must have ideas about the symbols and also the real world landscapes they represent.",
+                        definition: "First principle of map reading: Understand map symbols and visualize the real world landscapes they represent."
+                    },
+                    {
+                        id: 20,
+                        question: "Why was Ethiopia one of the earliest recipients of major world religions?",
+                        options: [
+                            "Because of its isolation from other regions",
+                            "Because of its proximity to the Middle East",
+                            "Because of its large population",
+                            "Because of its advanced civilization"
+                        ],
+                        correct: 1,
+                        explanation: "Ethiopia was an early recipient of Christianity, Islam and Judaism due to its proximity to the Middle East where these religions originated.",
+                        definition: "Religious history: Ethiopia was early recipient of Christianity, Islam, Judaism due to proximity to Middle East."
+                    },
+                    {
+                        id: 21,
+                        question: "What has significantly influenced Ethiopia's political history?",
+                        options: [
+                            "Isolation from global trade routes",
+                            "Lack of valuable resources",
+                            "Adjacency to the Red Sea",
+                            "Distance from conflict zones"
+                        ],
+                        correct: 2,
+                        explanation: "Ethiopia's political history has been influenced by: geopolitical considerations of superpowers, adjacency to the Red Sea (major trade route), and Middle East geopolitical paradigms.",
+                        definition: "Political influences: Geopolitical considerations, adjacency to Red Sea (major trade route), Middle East paradigms."
+                    },
+                    {
+                        id: 22,
+                        question: "What is the relative location of Ethiopia in relation to water bodies and land masses?",
+                        options: [
+                            "North of Europe",
+                            "East of the Arabian Peninsula",
+                            "In the Congo Basin",
+                            "South of the Mediterranean Sea"
+                        ],
+                        correct: 1,
+                        explanation: "Ethiopia is southwest of the Arabian Peninsula, south of Europe, northwest of the Indian Ocean, and in the Nile Basin.",
+                        definition: "Relative location: Ethiopia is in Horn of Africa, SW of Arabian Peninsula, S of Europe, NW of Indian Ocean, in Nile Basin."
+                    },
+                    {
+                        id: 23,
+                        question: "Which of these is NOT a function of maps?",
+                        options: [
+                            "Provide basis for making geographical details of regions",
+                            "Make spatial analysis of geographical facts",
+                            "Give location of geographical features",
+                            "Predict future climate patterns"
+                        ],
+                        correct: 3,
+                        explanation: "Maps are used to provide geographical details, make spatial analysis, give locations, store geographical data, and assess measurements, but not to predict future climate.",
+                        definition: "Map functions: Provide geographical details, spatial analysis, location, data storage, measurements - but NOT climate prediction."
+                    },
+                    {
+                        id: 24,
+                        question: "What is the main purpose of a grid reference on a map?",
+                        options: [
+                            "To show elevation",
+                            "To accurately pinpoint locations",
+                            "To indicate political boundaries",
+                            "To show climate zones"
+                        ],
+                        correct: 1,
+                        explanation: "Grid references allow you to accurately pinpoint locations on a map using a series of numbers.",
+                        definition: "Grid reference: Allows accurate pinpointing of locations on a map using a series of numbers."
+                    },
+                    {
+                        id: 25,
+                        question: "What is the difference between absolute and relative location?",
+                        options: [
+                            "Absolute uses coordinates; relative uses relation to other places",
+                            "Absolute is approximate; relative is exact",
+                            "Absolute is for large areas; relative is for small areas",
+                            "Absolute is for physical features; relative is for human features"
+                        ],
+                        correct: 0,
+                        explanation: "Absolute location (astronomical) uses lines of latitudes and longitudes. Relative location expresses location with reference to other countries or landmasses.",
+                        definition: "Absolute location: Uses coordinates (lat/long). Relative location: Uses relation to other places."
+                    }
+                ],
+                notes: [
+                    "Geography: Scientific study of Earth's spatial and temporal variations of physical, biological and human phenomena",
+                    "Five themes: Location, Place, Human-Environment Interaction, Movement, Region",
+                    "Absolute location of Ethiopia: 3°N to 15°N, 33°E to 48°E",
+                    "Relative location: In Horn of Africa; bordered by Sudan, South Sudan, Djibouti, Somalia, Eritrea, Kenya",
+                    "Area: 1,106,000 km² (8th in Africa, 25th globally)",
+                    "East-west distance: 1,639 km; North-south: 1,577 km",
+                    "Water coverage: 0.7% of total area",
+                    "Climate: Tropical due to latitudinal position, modified by altitude",
+                    "Time zone: 1 hour difference between easternmost and westernmost points",
+                    "Advantages of size: Diverse ecology, resources, arable land, population, culture, defense depth",
+                    "Disadvantages: High infrastructure cost, defense challenges, administrative difficulty, integration challenges",
+                    "Shape: Protruded; measured by indices of compactness (A/B ratio, B/C ratio, etc.)",
+                    "Map: 2D scaled representation of Earth's surface",
+                    "Map types: Topographical (natural/cultural features) and Statistical/Special purpose (distribution maps)",
+                    "Marginal information: Title, legend/key, scale, north arrow, margin, date of compilation",
+                    "Map reading principles: Understand symbols, know directions, use grid references",
+                    "Location implications: Climate (tropical), Socio-cultural (early religion reception), Political (Red Sea influence)",
+                    "Horn of Africa: Djibouti, Eritrea, Ethiopia, Somalia"
+                ],
+                content: `
+                    <div class="content-section">
+                        <h5><i class="fas fa-book me-2"></i>CHAPTER ONE: INTRODUCTION</h5>
+                        <p><strong>1.1. Geography: Definition, Scope and Themes</strong></p>
+                        <p><em>Geography is the scientific study of the Earth that describes and analyses spatial and temporal variations of physical, biological and human phenomena, and their interrelationships and dynamism over the surface of the Earth.</em></p>
+                        
+                        <p><strong>Five Basic Themes of Geography:</strong></p>
+                        <ol>
+                            <li><strong>Location:</strong> Particular place or position (Absolute: coordinates; Relative: in relation to other places)</li>
+                            <li><strong>Place:</strong> Physical and human aspects of a location (toponym, site, situation)</li>
+                            <li><strong>Human-Environment Interaction:</strong> Dependency, adaptation, and modification</li>
+                            <li><strong>Movement:</strong> Translocation of humans, goods, and ideas</li>
+                            <li><strong>Region:</strong> Geographic area with distinctive characteristics (formal, functional/nodal)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h5><i class="fas fa-map-marker-alt me-2"></i>1.2. Location, Shape and Size of Ethiopia and the Horn</h5>
+                        
+                        <p><strong>Horn of Africa:</strong> Eastern Africa region comprising Djibouti, Eritrea, Ethiopia, and Somalia. Ethiopia is the largest; Djibouti is the smallest.</p>
+                        
+                        <p><strong>Location of Ethiopia:</strong></p>
+                        <ul>
+                            <li><strong>Astronomical:</strong> 3°N to 15°N latitudes, 33°E to 48°E longitudes</li>
+                            <li><strong>Relative:</strong> 
+                                <ul>
+                                    <li>Vicinal: Sudan (W/NW), South Sudan (SW), Djibouti (E), Somalia (E/SE), Eritrea (N/NE), Kenya (S)</li>
+                                    <li>Water bodies & land masses: In Horn of Africa, SW of Arabian Peninsula, S of Europe, NW of Indian Ocean, in Nile Basin</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Implications of Ethiopia's Location:</strong></p>
+                        <ul>
+                            <li><strong>Climate:</strong> Tropical climate (between Equator and Tropic of Cancer), modified by altitude</li>
+                            <li><strong>Socio-cultural:</strong> Early recipient of major world religions (Christianity, Islam, Judaism) due to proximity to Middle East</li>
+                            <li><strong>Political:</strong> Influenced by geopolitical considerations of superpowers, adjacency to Red Sea (major trade route), Middle East geopolitical paradigms</li>
+                        </ul>
+                        
+                        <p><strong>Size of Ethiopia:</strong></p>
+                        <ul>
+                            <li>Total area: ~1,106,000 km²</li>
+                            <li>8th largest in Africa, 25th in world</li>
+                            <li>East-west: 1,639 km; North-south: 1,577 km</li>
+                            <li>Water bodies: 0.7% of area</li>
+                        </ul>
+                        
+                        <p><strong>Advantages of Large Size:</strong></p>
+                        <ul>
+                            <li>Possess diverse agro-ecological zones</li>
+                            <li>Variety of natural resources</li>
+                            <li>Own extensive arable land</li>
+                            <li>Have larger population size</li>
+                            <li>Home for diverse cultures</li>
+                            <li>Greater depth in defense against external invasion</li>
+                        </ul>
+                        
+                        <p><strong>Disadvantages of Large Size:</strong></p>
+                        <ul>
+                            <li>Demands greater capital to construct infrastructural facilities</li>
+                            <li>Requires large army to protect its territory</li>
+                            <li>Difficult for effective administration</li>
+                            <li>Difficult for socio-economic integration</li>
+                        </ul>
+                        
+                        <p><strong>Shape of Ethiopia:</strong> Protruded shape</p>
+                        <p><strong>Indices of Compactness:</strong></p>
+                        <ol>
+                            <li>Area-Boundary ratio (A/B): Higher ratio = greater compactness</li>
+                            <li>Boundary-Circumference ratio (B/C): Nearer to 1 = more compact</li>
+                            <li>Area-Circumference ratio (A/C): Higher ratio = greater compactness</li>
+                            <li>Area-Area ratio (A/A'): Nearer to 1 = more compact</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h5><i class="fas fa-map me-2"></i>1.3. Basic Skills of Map Reading</h5>
+                        
+                        <p><strong>Map:</strong> Two-dimensional scaled representation of part or whole of the Earth surface on a flat body.</p>
+                        
+                        <p><strong>Importance of Maps:</strong></p>
+                        <ul>
+                            <li>Provide basis for geographical details of regions</li>
+                            <li>Powerful tools for spatial analysis</li>
+                            <li>Useful for locating geographical features</li>
+                            <li>Used in various disciplines (land use planning, military, tourism, etc.)</li>
+                            <li>Store geographical data</li>
+                            <li>Assess reliable measurements</li>
+                        </ul>
+                        
+                        <p><strong>Types of Maps:</strong></p>
+                        <ul>
+                            <li><strong>Topographical maps:</strong> Depict natural and cultural features (small, medium, or large scale)</li>
+                            <li><strong>Special purpose/Statistical maps:</strong> Show distribution of specific aspects (temperature, rainfall, vegetation, etc.)</li>
+                        </ul>
+                        
+                        <p><strong>Marginal Information (Elements of Maps):</strong></p>
+                        <ul>
+                            <li><strong>Title:</strong> Heading telling what the map is about</li>
+                            <li><strong>Key (Legend):</strong> List of conventional symbols with interpretation</li>
+                            <li><strong>Scale:</strong> Ratio between map distance and actual ground distance (representative fraction, verbal, linear)</li>
+                            <li><strong>North arrow:</strong> Indicates north direction</li>
+                            <li><strong>Margin:</strong> Frame of the map</li>
+                            <li><strong>Date of compilation:</strong> Date of map publication</li>
+                        </ul>
+                        
+                        <p><strong>Basic Principles of Map Reading:</strong></p>
+                        <ol>
+                            <li>Understand map symbols and visualize real landscapes</li>
+                            <li>Knowledge of directions (determine north first)</li>
+                            <li>Use grid system for accurate location pinpointing</li>
+                        </ol>
+                    </div>
+                `
+            },
+            2: {
+                title: "Chapter 2: Geology of Ethiopia and the Horn",
+                // Chapter 2 questions would continue here (same structure)
+                questions: [
+                    // First 5 questions as example
+                    {
+                        id: 1,
+                        question: "What is the definition of Geology?",
+                        options: [
+                            "The study of weather and climate patterns",
+                            "The study of plant and animal distributions",
+                            "An Earth science that studies the evolution of the earth, its materials, and processes acting upon them",
+                            "The study of human settlements and cultures"
+                        ],
+                        correct: 2,
+                        explanation: "Geology is an Earth science that studies the evolution of the earth, the materials of which it is made of, and the processes acting upon them.",
+                        definition: "Geology: An Earth science that studies the evolution of the earth, the materials of which it is made of, and the processes acting upon them."
+                    },
+                    {
+                        id: 2,
+                        question: "Who proposed the Continental Drift Theory?",
+                        options: [
+                            "Charles Darwin",
+                            "Alfred Wegener",
+                            "Isaac Newton",
+                            "Albert Einstein"
+                        ],
+                        correct: 1,
+                        explanation: "Australian climatologist Alfred Wegener proposed the hypothesis that continents were once assembled together as a supercontinent called Pangaea.",
+                        definition: "Continental Drift Theory: Proposed by Alfred Wegener; continents were once assembled as supercontinent Pangaea."
+                    },
+                    // ... more questions for Chapter 2
+                ],
+                notes: [
+                    "Geology: Studies Earth's evolution, materials, and processes",
+                    "Continental Drift Theory (Alfred Wegener): Continents were once Pangaea supercontinent",
+                    // ... more notes
+                ],
+                content: `
+                    <div class="content-section">
+                        <h5><i class="fas fa-mountain me-2"></i>CHAPTER TWO: THE GEOLOGY OF ETHIOPIA AND THE HORN</h5>
+                        <!-- Content would continue here -->
+                    </div>
+                `
+            },
+            3: {
+                title: "Chapter 3: Topography of Ethiopia and the Horn",
+                // Chapter 3 questions would continue here
+                questions: [
+                    // First 5 questions as example
+                    {
+                        id: 1,
+                        question: "What largely determines the topography of Ethiopia?",
+                        options: [
+                            "Recent human activities",
+                            "River erosion over the last million years",
+                            "Geologic activities of the Cenozoic Era",
+                            "Glacial activities during the Ice Age"
+                        ],
+                        correct: 2,
+                        explanation: "The topography of Ethiopia is largely determined by the geologic activities of the Cenozoic Era.",
+                        definition: "Topography: The arrangement of natural and artificial physical features of an area."
+                    },
+                    // ... more questions for Chapter 3
+                ],
+                notes: [
+                    "Topography determined by Cenozoic geologic activities",
+                    // ... more notes
+                ],
+                content: `
+                    <div class="content-section">
+                        <h5><i class="fas fa-layer-group me-2"></i>CHAPTER THREE: THE TOPOGRAPHY OF ETHIOPIA AND THE HORN</h5>
+                        <!-- Content would continue here -->
+                    </div>
+                `
+            }
+        };
+
+        // Navigation functions
         $(document).ready(function() {
-            // ========== ALL QUESTIONS DATA ==========
-            
-            // Chapter 1: Essence of Psychology (30 questions)
-            const chapter1Questions = [
-                {
-                    question: "Psychology is best defined as the scientific study of:",
-                    options: [
-                        "A. The human soul",
-                        "B. Human behavior only",
-                        "C. Human behavior and mental processes",
-                        "D. Human feelings only"
-                    ],
-                    answer: "C",
-                    explanation: "Psychology scientifically studies <strong>behavior (observable actions)</strong> and <strong>mental processes (thinking, feeling, remembering)</strong>."
-                },
-                {
-                    question: "The term 'psychology' is derived from Greek words meaning:",
-                    options: [
-                        "A. Brain and behavior",
-                        "B. Mind and study",
-                        "C. Soul and medicine",
-                        "D. Behavior and science"
-                    ],
-                    answer: "B",
-                    explanation: "<em>Psyche</em> = mind/soul, <em>Logos</em> = study."
-                },
-                {
-                    question: "Which of the following represents an example of behavior?",
-                    options: [
-                        "A. Thinking",
-                        "B. Remembering",
-                        "C. Feeling angry",
-                        "D. Talking"
-                    ],
-                    answer: "D",
-                    explanation: "Behavior refers to <strong>observable actions</strong> like speaking or walking."
-                },
-                {
-                    question: "Mental processes are best described as:",
-                    options: [
-                        "A. Observable actions",
-                        "B. Physical movements",
-                        "C. Internal and covert activities",
-                        "D. Reflex actions"
-                    ],
-                    answer: "C",
-                    explanation: "Mental processes include <strong>thinking, perception, memory, and emotions</strong>."
-                },
-                {
-                    question: "Which of the following is NOT a goal of psychology?",
-                    options: [
-                        "A. Description",
-                        "B. Explanation",
-                        "C. Prediction",
-                        "D. Elimination"
-                    ],
-                    answer: "D",
-                    explanation: "Psychology aims to <strong>describe, explain, predict, and control</strong> behavior—not eliminate it."
-                },
-                {
-                    question: "The goal of psychology that answers 'Why does behavior occur?' is:",
-                    options: [
-                        "A. Description",
-                        "B. Prediction",
-                        "C. Explanation",
-                        "D. Control"
-                    ],
-                    answer: "C",
-                    explanation: "Explanation seeks the <strong>causes or reasons</strong> behind behavior."
-                },
-                {
-                    question: "Which goal of psychology focuses on changing undesirable behavior?",
-                    options: [
-                        "A. Prediction",
-                        "B. Control",
-                        "C. Explanation",
-                        "D. Description"
-                    ],
-                    answer: "B",
-                    explanation: "Control aims to <strong>modify behavior</strong> in a positive direction."
-                },
-                {
-                    question: "Psychology became an independent science in:",
-                    options: [
-                        "A. 1850",
-                        "B. 1879",
-                        "C. 1900",
-                        "D. 1920"
-                    ],
-                    answer: "B",
-                    explanation: "Psychology officially began in <strong>1879</strong> with Wilhelm Wundt."
-                },
-                {
-                    question: "The first psychology laboratory was established by:",
-                    options: [
-                        "A. Sigmund Freud",
-                        "B. William James",
-                        "C. Wilhelm Wundt",
-                        "D. John Watson"
-                    ],
-                    answer: "C",
-                    explanation: "Wilhelm Wundt is called the <strong>father of modern psychology</strong>."
-                },
-                {
-                    question: "Structuralism mainly focused on studying:",
-                    options: [
-                        "A. Behavior",
-                        "B. The unconscious mind",
-                        "C. Structure of the mind",
-                        "D. Human emotions"
-                    ],
-                    answer: "C",
-                    explanation: "Structuralism studied <strong>elements of consciousness</strong> using introspection."
-                },
-                {
-                    question: "The founder of structuralism was:",
-                    options: [
-                        "A. Wilhelm Wundt",
-                        "B. Edward Titchener",
-                        "C. John Watson",
-                        "D. William James"
-                    ],
-                    answer: "B",
-                    explanation: "Titchener expanded Wundt's ideas into structuralism."
-                },
-                {
-                    question: "Functionalism emphasizes:",
-                    options: [
-                        "A. Structure of mind",
-                        "B. Functions of mind",
-                        "C. Unconscious conflicts",
-                        "D. Reflexes"
-                    ],
-                    answer: "B",
-                    explanation: "Functionalism studies <strong>how mental processes help adaptation</strong>."
-                },
-                {
-                    question: "The founder of functionalism was:",
-                    options: [
-                        "A. Freud",
-                        "B. Wundt",
-                        "C. William James",
-                        "D. Skinner"
-                    ],
-                    answer: "C",
-                    explanation: "William James focused on <strong>how the mind works in daily life</strong>."
-                },
-                {
-                    question: "Which school emphasized 'the whole is greater than the sum of its parts'?",
-                    options: [
-                        "A. Behaviorism",
-                        "B. Structuralism",
-                        "C. Gestalt psychology",
-                        "D. Psychoanalysis"
-                    ],
-                    answer: "C",
-                    explanation: "Gestalt psychology studies perception as <strong>organized wholes</strong>."
-                },
-                {
-                    question: "Behaviorism focuses mainly on:",
-                    options: [
-                        "A. Consciousness",
-                        "B. Unconscious motives",
-                        "C. Observable behavior",
-                        "D. Feelings"
-                    ],
-                    answer: "C",
-                    explanation: "Behaviorists study <strong>observable and measurable behavior</strong>."
-                },
-                {
-                    question: "The founder of behaviorism was:",
-                    options: [
-                        "A. Skinner",
-                        "B. Watson",
-                        "C. Thorndike",
-                        "D. Pavlov"
-                    ],
-                    answer: "B",
-                    explanation: "John B. Watson rejected mental processes in psychology."
-                },
-                {
-                    question: "Psychoanalysis emphasizes the role of:",
-                    options: [
-                        "A. Learning",
-                        "B. Conscious mind",
-                        "C. Unconscious processes",
-                        "D. Environment"
-                    ],
-                    answer: "C",
-                    explanation: "Psychoanalysis focuses on <strong>hidden unconscious conflicts</strong>."
-                },
-                {
-                    question: "The founder of psychoanalysis was:",
-                    options: [
-                        "A. Carl Rogers",
-                        "B. Sigmund Freud",
-                        "C. John Watson",
-                        "D. William James"
-                    ],
-                    answer: "B",
-                    explanation: "Freud emphasized dreams, childhood, and unconscious motives."
-                },
-                {
-                    question: "Which modern perspective focuses on free will and self-actualization?",
-                    options: [
-                        "A. Behavioral",
-                        "B. Cognitive",
-                        "C. Humanistic",
-                        "D. Biological"
-                    ],
-                    answer: "C",
-                    explanation: "Humanistic psychology stresses <strong>personal growth and choice</strong>."
-                },
-                {
-                    question: "The cognitive perspective studies:",
-                    options: [
-                        "A. Hormones",
-                        "B. Rewards and punishment",
-                        "C. Thinking and memory",
-                        "D. Culture"
-                    ],
-                    answer: "C",
-                    explanation: "Cognitive psychology focuses on <strong>mental processes</strong>."
-                },
-                {
-                    question: "The biological perspective emphasizes:",
-                    options: [
-                        "A. Culture",
-                        "B. Brain and genetics",
-                        "C. Learning",
-                        "D. Motivation"
-                    ],
-                    answer: "B",
-                    explanation: "It studies how <strong>brain structure and chemicals</strong> affect behavior."
-                },
-                {
-                    question: "Which perspective studies behavior in cultural context?",
-                    options: [
-                        "A. Biological",
-                        "B. Cognitive",
-                        "C. Sociocultural",
-                        "D. Behavioral"
-                    ],
-                    answer: "C",
-                    explanation: "Sociocultural psychology emphasizes <strong>social and cultural influence</strong>."
-                },
-                {
-                    question: "Developmental psychology studies:",
-                    options: [
-                        "A. Personality traits",
-                        "B. Mental illness",
-                        "C. Changes across lifespan",
-                        "D. Learning"
-                    ],
-                    answer: "C",
-                    explanation: "It examines <strong>physical, cognitive, and emotional growth</strong>."
-                },
-                {
-                    question: "Clinical psychology mainly deals with:",
-                    options: [
-                        "A. Education",
-                        "B. Mental disorders",
-                        "C. Industry",
-                        "D. Law"
-                    ],
-                    answer: "B",
-                    explanation: "Clinical psychologists <strong>diagnose and treat psychological disorders</strong>."
-                },
-                {
-                    question: "A scientific method is best described as:",
-                    options: [
-                        "A. Guessing",
-                        "B. Observation only",
-                        "C. Systematic testing of ideas",
-                        "D. Personal opinion"
-                    ],
-                    answer: "C",
-                    explanation: "Scientific method reduces bias using <strong>observation and experimentation</strong>."
-                },
-                {
-                    question: "A hypothesis is:",
-                    options: [
-                        "A. A proven fact",
-                        "B. A random idea",
-                        "C. A testable statement",
-                        "D. A conclusion"
-                    ],
-                    answer: "C",
-                    explanation: "A hypothesis predicts the <strong>relationship between variables</strong>."
-                },
-                {
-                    question: "Which research method describes behavior without manipulation?",
-                    options: [
-                        "A. Experimental",
-                        "B. Correlational",
-                        "C. Descriptive",
-                        "D. Clinical"
-                    ],
-                    answer: "C",
-                    explanation: "Descriptive research <strong>observes and records behavior</strong>."
-                },
-                {
-                    question: "Naturalistic observation means:",
-                    options: [
-                        "A. Observing in labs",
-                        "B. Observing in natural settings",
-                        "C. Using surveys",
-                        "D. Interviewing"
-                    ],
-                    answer: "B",
-                    explanation: "Behavior is studied in its <strong>real-life environment</strong>."
-                },
-                {
-                    question: "Correlation shows:",
-                    options: [
-                        "A. Cause and effect",
-                        "B. Randomness",
-                        "C. Relationship between variables",
-                        "D. Experiment results"
-                    ],
-                    answer: "C",
-                    explanation: "Correlation measures <strong>association, not causation</strong>."
-                },
-                {
-                    question: "Experimental research is best for studying:",
-                    options: [
-                        "A. Opinions",
-                        "B. Descriptions",
-                        "C. Cause and effect",
-                        "D. Observation"
-                    ],
-                    answer: "C",
-                    explanation: "Experiments manipulate variables to determine <strong>cause-effect relationships</strong>."
-                }
-            ];
-            
-            // Chapter 2: Sensation & Perception (25 questions)
-            const chapter2Questions = [
-                {
-                    question: "Sensation refers to:",
-                    options: [
-                        "A. Interpretation of stimuli",
-                        "B. Meaning given to experience",
-                        "C. Detection of stimuli by sense organs",
-                        "D. Learning process"
-                    ],
-                    answer: "C",
-                    explanation: "Sensation is the process by which sense organs detect physical stimuli from the environment."
-                },
-                {
-                    question: "Perception is best defined as:",
-                    options: [
-                        "A. Receiving stimuli",
-                        "B. Organizing and interpreting sensory information",
-                        "C. Stimulus detection",
-                        "D. Reflex action"
-                    ],
-                    answer: "B",
-                    explanation: "Perception is the process of organizing and interpreting sensory information to give it meaning."
-                },
-                {
-                    question: "The sense organ for vision is:",
-                    options: [
-                        "A. Ear",
-                        "B. Nose",
-                        "C. Eye",
-                        "D. Skin"
-                    ],
-                    answer: "C",
-                    explanation: "The eye detects light and enables vision."
-                },
-                {
-                    question: "Which sense is related to hearing?",
-                    options: [
-                        "A. Vision",
-                        "B. Olfaction",
-                        "C. Audition",
-                        "D. Gustation"
-                    ],
-                    answer: "C",
-                    explanation: "Audition is the sense of hearing."
-                },
-                {
-                    question: "The process of converting physical energy into neural signals is called:",
-                    options: [
-                        "A. Adaptation",
-                        "B. Transduction",
-                        "C. Perception",
-                        "D. Threshold"
-                    ],
-                    answer: "B",
-                    explanation: "Transduction is the conversion of physical energy into nerve impulses."
-                },
-                {
-                    question: "Absolute threshold is:",
-                    options: [
-                        "A. Maximum stimulus",
-                        "B. Difference between two stimuli",
-                        "C. Minimum detectable stimulus",
-                        "D. Adaptation level"
-                    ],
-                    answer: "C",
-                    explanation: "Absolute threshold is the minimum intensity of a stimulus that can be detected."
-                },
-                {
-                    question: "Difference threshold refers to:",
-                    options: [
-                        "A. Total sensation",
-                        "B. Change in perception",
-                        "C. Minimum difference between two stimuli",
-                        "D. Sensory adaptation"
-                    ],
-                    answer: "C",
-                    explanation: "Difference threshold is the smallest detectable difference between two stimuli."
-                },
-                {
-                    question: "Weber's Law states that:",
-                    options: [
-                        "A. Perception is subjective",
-                        "B. Sensation depends on adaptation",
-                        "C. Change in stimulus is proportional",
-                        "D. Stimuli are constant"
-                    ],
-                    answer: "C",
-                    explanation: "Weber's Law states that the noticeable difference between stimuli is proportional to the original stimulus."
-                },
-                {
-                    question: "Sensory adaptation is:",
-                    options: [
-                        "A. Increased sensitivity",
-                        "B. Reduced sensitivity to constant stimuli",
-                        "C. Learning process",
-                        "D. Perceptual illusion"
-                    ],
-                    answer: "B",
-                    explanation: "Sensory adaptation is reduced sensitivity to an unchanging stimulus over time."
-                },
-                {
-                    question: "Which sense helps in identifying smell?",
-                    options: [
-                        "A. Gustation",
-                        "B. Audition",
-                        "C. Olfaction",
-                        "D. Vision"
-                    ],
-                    answer: "C",
-                    explanation: "Olfaction is the sense of smell."
-                },
-                {
-                    question: "Gustation refers to the sense of:",
-                    options: [
-                        "A. Touch",
-                        "B. Taste",
-                        "C. Smell",
-                        "D. Hearing"
-                    ],
-                    answer: "B",
-                    explanation: "Gustation is the sense of taste."
-                },
-                {
-                    question: "The skin sense includes:",
-                    options: [
-                        "A. Vision only",
-                        "B. Hearing only",
-                        "C. Touch, pain, temperature",
-                        "D. Taste and smell"
-                    ],
-                    answer: "C",
-                    explanation: "Skin senses include touch, pain, pressure, and temperature."
-                },
-                {
-                    question: "Which sense helps maintain balance?",
-                    options: [
-                        "A. Vision",
-                        "B. Olfaction",
-                        "C. Vestibular sense",
-                        "D. Gustation"
-                    ],
-                    answer: "C",
-                    explanation: "Vestibular sense helps maintain balance and body orientation."
-                },
-                {
-                    question: "The perception of body position is called:",
-                    options: [
-                        "A. Vestibular sense",
-                        "B. Kinesthetic sense",
-                        "C. Visual sense",
-                        "D. Auditory sense"
-                    ],
-                    answer: "B",
-                    explanation: "Kinesthetic sense provides information about body movement and position."
-                },
-                {
-                    question: "Perceptual constancy means:",
-                    options: [
-                        "A. Changing perception",
-                        "B. Stable perception despite change",
-                        "C. Sensory adaptation",
-                        "D. Illusion"
-                    ],
-                    answer: "B",
-                    explanation: "Perceptual constancy is perceiving objects as stable despite changes in stimuli."
-                },
-                {
-                    question: "Size constancy refers to:",
-                    options: [
-                        "A. Color stability",
-                        "B. Shape recognition",
-                        "C. Perception of size as constant",
-                        "D. Illusion"
-                    ],
-                    answer: "C",
-                    explanation: "Size constancy means perceiving an object as the same size regardless of distance."
-                },
-                {
-                    question: "Gestalt psychology emphasizes:",
-                    options: [
-                        "A. Individual parts",
-                        "B. Whole experience",
-                        "C. Reflex actions",
-                        "D. Learning"
-                    ],
-                    answer: "B",
-                    explanation: "Gestalt psychology focuses on perception as a whole rather than parts."
-                },
-                {
-                    question: "Figure-ground perception means:",
-                    options: [
-                        "A. Depth perception",
-                        "B. Color vision",
-                        "C. Separating object from background",
-                        "D. Sensory adaptation"
-                    ],
-                    answer: "C",
-                    explanation: "Figure-ground perception is the ability to distinguish an object from its background."
-                },
-                {
-                    question: "Illusion is:",
-                    options: [
-                        "A. Correct perception",
-                        "B. False sensory experience",
-                        "C. Misinterpretation of stimuli",
-                        "D. Hallucination"
-                    ],
-                    answer: "C",
-                    explanation: "An illusion is a misinterpretation of a real external stimulus."
-                },
-                {
-                    question: "Hallucination is:",
-                    options: [
-                        "A. Real stimulus",
-                        "B. Imaginary perception",
-                        "C. Sensory adaptation",
-                        "D. Threshold"
-                    ],
-                    answer: "B",
-                    explanation: "Hallucination is perception without an external stimulus."
-                },
-                {
-                    question: "Depth perception helps us judge:",
-                    options: [
-                        "A. Color",
-                        "B. Distance",
-                        "C. Taste",
-                        "D. Smell"
-                    ],
-                    answer: "B",
-                    explanation: "Depth perception allows us to judge distance and space."
-                },
-                {
-                    question: "Monocular cues require:",
-                    options: [
-                        "A. Two eyes",
-                        "B. No eyes",
-                        "C. One eye",
-                        "D. Brain only"
-                    ],
-                    answer: "C",
-                    explanation: "Monocular cues are depth cues that require only one eye."
-                },
-                {
-                    question: "Binocular cues depend on:",
-                    options: [
-                        "A. One eye",
-                        "B. Two eyes",
-                        "C. Ear",
-                        "D. Skin"
-                    ],
-                    answer: "B",
-                    explanation: "Binocular cues are depth cues that require both eyes."
-                },
-                {
-                    question: "Perception is influenced by:",
-                    options: [
-                        "A. Experience",
-                        "B. Motivation",
-                        "C. Expectations",
-                        "D. All of the above"
-                    ],
-                    answer: "D",
-                    explanation: "Perception is shaped by experience, motivation, and expectations."
-                },
-                {
-                    question: "Sensation occurs at the level of:",
-                    options: [
-                        "A. Brain only",
-                        "B. Sense organs",
-                        "C. Muscles",
-                        "D. Hormones"
-                    ],
-                    answer: "B",
-                    explanation: "Sensation begins at the sense organ level."
-                }
-            ];
-            
-            // Chapter 3: Learning and Theories of Learning (25 questions)
-            const chapter3Questions = [
-                {
-                    question: "Learning is best defined as:",
-                    options: [
-                        "A. A permanent change in physical structure",
-                        "B. A relatively permanent change in behavior due to experience",
-                        "C. A temporary change caused by fatigue",
-                        "D. A change due to maturation"
-                    ],
-                    answer: "B",
-                    explanation: "Learning is a relatively permanent change in behavior or knowledge resulting from experience and practice."
-                },
-                {
-                    question: "Which of the following is NOT a characteristic of learning?",
-                    options: [
-                        "A. Learning is goal-directed",
-                        "B. Learning involves change",
-                        "C. Learning is always positive",
-                        "D. Learning results from experience"
-                    ],
-                    answer: "C",
-                    explanation: "Learning can be positive or negative (e.g., learning bad habits)."
-                },
-                {
-                    question: "Learning that occurs without practice or experience is called:",
-                    options: [
-                        "A. Conditioning",
-                        "B. Learning",
-                        "C. Maturation",
-                        "D. Imitation"
-                    ],
-                    answer: "C",
-                    explanation: "Maturation refers to changes due to biological growth, not learning."
-                },
-                {
-                    question: "Which principle of learning states that practice improves performance?",
-                    options: [
-                        "A. Motivation",
-                        "B. Readiness",
-                        "C. Exercise",
-                        "D. Effect"
-                    ],
-                    answer: "C",
-                    explanation: "The law of exercise states that repetition strengthens learning."
-                },
-                {
-                    question: "The law of effect was proposed by:",
-                    options: [
-                        "A. Ivan Pavlov",
-                        "B. B.F. Skinner",
-                        "C. Edward Thorndike",
-                        "D. John Watson"
-                    ],
-                    answer: "C",
-                    explanation: "Thorndike stated that behaviors followed by satisfaction are strengthened."
-                },
-                {
-                    question: "Which factor influences learning the MOST?",
-                    options: [
-                        "A. Age",
-                        "B. Intelligence",
-                        "C. Motivation",
-                        "D. All of the above"
-                    ],
-                    answer: "D",
-                    explanation: "Learning is influenced by many factors including intelligence, motivation, age, and environment."
-                },
-                {
-                    question: "Which theory explains learning in terms of stimulus–response connections?",
-                    options: [
-                        "A. Cognitive theory",
-                        "B. Behavioral theory",
-                        "C. Humanistic theory",
-                        "D. Gestalt theory"
-                    ],
-                    answer: "B",
-                    explanation: "Behavioral theory emphasizes observable behavior and S–R associations."
-                },
-                {
-                    question: "Classical conditioning was developed by:",
-                    options: [
-                        "A. Skinner",
-                        "B. Thorndike",
-                        "C. Pavlov",
-                        "D. Bandura"
-                    ],
-                    answer: "C",
-                    explanation: "Pavlov discovered learning through association between stimuli."
-                },
-                {
-                    question: "In classical conditioning, the unconditioned stimulus (UCS) is:",
-                    options: [
-                        "A. Learned stimulus",
-                        "B. Natural stimulus that produces a response",
-                        "C. Neutral stimulus",
-                        "D. Learned response"
-                    ],
-                    answer: "B",
-                    explanation: "UCS naturally and automatically triggers a response."
-                },
-                {
-                    question: "Operant conditioning mainly focuses on:",
-                    options: [
-                        "A. Association between two stimuli",
-                        "B. Association between behavior and consequence",
-                        "C. Mental processes",
-                        "D. Observation"
-                    ],
-                    answer: "B",
-                    explanation: "Operant conditioning involves learning through rewards and punishments."
-                },
-                {
-                    question: "Who proposed operant conditioning?",
-                    options: [
-                        "A. Pavlov",
-                        "B. Watson",
-                        "C. Skinner",
-                        "D. Bandura"
-                    ],
-                    answer: "C",
-                    explanation: "B.F. Skinner emphasized reinforcement and punishment."
-                },
-                {
-                    question: "Reinforcement is defined as:",
-                    options: [
-                        "A. Any stimulus that decreases behavior",
-                        "B. Any stimulus that increases behavior",
-                        "C. Removal of stimulus",
-                        "D. Neutral stimulus"
-                    ],
-                    answer: "B",
-                    explanation: "Reinforcement strengthens or increases behavior."
-                },
-                {
-                    question: "Which of the following is an example of positive reinforcement?",
-                    options: [
-                        "A. Scolding a student",
-                        "B. Removing homework",
-                        "C. Giving praise for good work",
-                        "D. Ignoring behavior"
-                    ],
-                    answer: "C",
-                    explanation: "Positive reinforcement adds something pleasant to increase behavior."
-                },
-                {
-                    question: "Punishment is intended to:",
-                    options: [
-                        "A. Increase behavior",
-                        "B. Maintain behavior",
-                        "C. Decrease behavior",
-                        "D. Shape behavior"
-                    ],
-                    answer: "C",
-                    explanation: "Punishment reduces the likelihood of a behavior."
-                },
-                {
-                    question: "Learning by observing others is called:",
-                    options: [
-                        "A. Trial and error",
-                        "B. Insight learning",
-                        "C. Observational learning",
-                        "D. Conditioning"
-                    ],
-                    answer: "C",
-                    explanation: "Observational learning occurs by watching and imitating others."
-                },
-                {
-                    question: "Social learning theory was proposed by:",
-                    options: [
-                        "A. Skinner",
-                        "B. Pavlov",
-                        "C. Bandura",
-                        "D. Thorndike"
-                    ],
-                    answer: "C",
-                    explanation: "Bandura emphasized modeling and imitation."
-                },
-                {
-                    question: "According to Bandura, learning requires:",
-                    options: [
-                        "A. Reinforcement only",
-                        "B. Attention, retention, reproduction, motivation",
-                        "C. Stimulus and response",
-                        "D. Practice only"
-                    ],
-                    answer: "B",
-                    explanation: "These four processes are necessary for observational learning."
-                },
-                {
-                    question: "Learning that occurs suddenly after understanding a problem is:",
-                    options: [
-                        "A. Trial and error",
-                        "B. Conditioning",
-                        "C. Insight learning",
-                        "D. Imitation"
-                    ],
-                    answer: "C",
-                    explanation: "Insight learning involves sudden realization of a solution."
-                },
-                {
-                    question: "Insight learning is associated with:",
-                    options: [
-                        "A. Thorndike",
-                        "B. Pavlov",
-                        "C. Kohler",
-                        "D. Skinner"
-                    ],
-                    answer: "C",
-                    explanation: "Wolfgang Köhler demonstrated insight learning using chimpanzees."
-                },
-                {
-                    question: "Cognitive learning theory emphasizes:",
-                    options: [
-                        "A. Behavior only",
-                        "B. Unconscious processes",
-                        "C. Mental processes",
-                        "D. Biological factors"
-                    ],
-                    answer: "C",
-                    explanation: "Cognitive theory focuses on thinking, memory, and problem-solving."
-                },
-                {
-                    question: "Which learning theory sees learners as active thinkers?",
-                    options: [
-                        "A. Behavioral",
-                        "B. Cognitive",
-                        "C. Classical conditioning",
-                        "D. Operant conditioning"
-                    ],
-                    answer: "B",
-                    explanation: "Cognitive theory views learners as active participants."
-                },
-                {
-                    question: "Learning that depends on rewards and punishments is:",
-                    options: [
-                        "A. Cognitive learning",
-                        "B. Insight learning",
-                        "C. Operant conditioning",
-                        "D. Observational learning"
-                    ],
-                    answer: "C",
-                    explanation: "Operant conditioning is based on consequences."
-                },
-                {
-                    question: "Which is NOT a factor influencing learning?",
-                    options: [
-                        "A. Motivation",
-                        "B. Intelligence",
-                        "C. Heredity",
-                        "D. Blood group"
-                    ],
-                    answer: "D",
-                    explanation: "Blood group has no influence on learning."
-                },
-                {
-                    question: "Trial-and-error learning is associated with:",
-                    options: [
-                        "A. Pavlov",
-                        "B. Thorndike",
-                        "C. Bandura",
-                        "D. Köhler"
-                    ],
-                    answer: "B",
-                    explanation: "Thorndike showed learning occurs through repeated attempts."
-                },
-                {
-                    question: "Learning is said to be 'relatively permanent' because:",
-                    options: [
-                        "A. It never changes",
-                        "B. It lasts for a short time",
-                        "C. It is not temporary like fatigue",
-                        "D. It occurs instantly"
-                    ],
-                    answer: "C",
-                    explanation: "Learning excludes temporary changes due to tiredness or drugs."
-                }
-            ];
-            
-            // ========== APP STATE ==========
-            let currentChapter = 1;
-            let currentMode = 'flashcards';
-            let currentCardIndex = 0;
-            let currentQuizIndex = 0;
-            let quizScore = 0;
-            let selectedOption = null;
-            let answerChecked = false;
-            let cardsStudied = 0;
-            let studyTime = 0;
-            let chapter1Score = 0;
-            let chapter2Score = 0;
-            let chapter3Score = 0;
-            
-            // ========== HELPER FUNCTIONS ==========
-            
-            function getCurrentQuestions() {
-                if (currentChapter === 1) return chapter1Questions;
-                if (currentChapter === 2) return chapter2Questions;
-                return chapter3Questions;
-            }
-            
-            function getCurrentChapterName() {
-                if (currentChapter === 1) return "Essence of Psychology";
-                if (currentChapter === 2) return "Sensation & Perception";
-                return "Learning Theories";
-            }
-            
-            function getChapterColor() {
-                if (currentChapter === 1) return "var(--chapter1)";
-                if (currentChapter === 2) return "var(--chapter2)";
-                return "var(--chapter3)";
-            }
-            
-            function getChapterBadgeClass() {
-                if (currentChapter === 1) return "chapter1-badge";
-                if (currentChapter === 2) return "chapter2-badge";
-                return "chapter3-badge";
-            }
-            
-            // ========== CHAPTER SELECTION ==========
-            
-            $('.chapter-card').click(function() {
-                const chapter = $(this).data('chapter');
-                switchChapter(chapter);
+            // Navigation links
+            $('#homeLink').click(function(e) {
+                e.preventDefault();
+                showHomePage();
             });
             
-            function switchChapter(chapter) {
-                currentChapter = chapter;
-                currentCardIndex = 0;
-                currentQuizIndex = 0;
-                
-                // Update UI
-                updateChapterUI();
-                
-                // Load content based on current mode
-                if (currentMode === 'flashcards') {
-                    loadCard(currentCardIndex);
-                } else if (currentMode === 'quiz') {
-                    loadQuestion(currentQuizIndex);
-                } else if (currentMode === 'summary') {
-                    updateSummary();
-                }
-            }
-            
-            function updateChapterUI() {
-                // Update chapter card selection
-                $('.chapter-card').css('transform', 'translateY(0)');
-                $('.chapter-card').find('h4, h5').css('color', '');
-                $(`.chapter-card[data-chapter="${currentChapter}"]`).css('transform', 'translateY(-10px)');
-                $(`.chapter-card[data-chapter="${currentChapter}"] h4`).css('color', getChapterColor());
-                $(`.chapter-card[data-chapter="${currentChapter}"] h5`).css('color', getChapterColor());
-                
-                // Update chapter badge on flashcard
-                $('#card-chapter-badge').removeClass('chapter1-badge chapter2-badge chapter3-badge')
-                    .addClass(getChapterBadgeClass())
-                    .text(`Chapter ${currentChapter}`);
-                    
-                // Update quiz title
-                $('#quiz-title').text(`Chapter ${currentChapter}: ${getCurrentChapterName()} Quiz`);
-                $('#quiz-total').text(getCurrentQuestions().length);
-                
-                // Update summary title
-                $('#summary-title').text(`Chapter ${currentChapter}: ${getCurrentChapterName()} Summary`);
-            }
-            
-            // ========== STUDY MODE SELECTION ==========
-            
-            $('.mode-card').click(function() {
-                const mode = $(this).data('mode');
-                switchMode(mode);
+            $('#chaptersLink').click(function(e) {
+                e.preventDefault();
+                showChaptersPage();
             });
             
-            function switchMode(mode) {
-                currentMode = mode;
-                
-                // Update mode card selection
-                $('.mode-card').removeClass('active');
-                $(`.mode-card[data-mode="${mode}"]`).addClass('active');
-                
-                // Hide all modes
-                $('.study-mode').hide();
-                
-                // Show selected mode
-                $(`#${mode}-mode`).show();
-                
-                // Load content for the mode
-                if (mode === 'flashcards') {
-                    loadCard(currentCardIndex);
-                } else if (mode === 'quiz') {
-                    loadQuestion(currentQuizIndex);
-                    resetQuizUI();
-                } else if (mode === 'summary') {
-                    updateSummary();
-                } else if (mode === 'review') {
-                    updateReview();
-                }
-            }
+            $('#recommendationsLink').click(function(e) {
+                e.preventDefault();
+                showRecommendationsPage();
+            });
             
-            // ========== FLASHCARD FUNCTIONS ==========
+            $('#backToChapters').click(function() {
+                showChaptersPage();
+            });
             
-            $('#flip-card').click(function() {
-                $('#flashcard').toggleClass('flipped');
-                // Show definition when card is flipped
-                if ($('#flashcard').hasClass('flipped')) {
-                    $('#card-definition-box').slideDown();
+            // Exam navigation
+            $('#prevQuestion').click(function() {
+                if (currentQuestion > 1) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
                 }
             });
             
-            $('#prev-card').click(function() {
-                if (currentCardIndex > 0) {
-                    currentCardIndex--;
-                    loadCard(currentCardIndex);
+            $('#nextQuestion').click(function() {
+                if (currentQuestion < examQuestions.length) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
                 }
             });
             
-            $('#next-card').click(function() {
-                const questions = getCurrentQuestions();
-                if (currentCardIndex < questions.length - 1) {
-                    currentCardIndex++;
-                    loadCard(currentCardIndex);
-                }
+            $('#submitExam').click(function() {
+                submitExam();
             });
             
-            function loadCard(index) {
-                const questions = getCurrentQuestions();
-                if (index >= 0 && index < questions.length) {
-                    const question = questions[index];
-                    
-                    // Update card content
-                    $('#card-question').text(question.question);
-                    $('#card-answer').text(`${question.answer}. ${question.options[question.answer.charCodeAt(0) - 65]}`);
-                    $('#card-definition').html(question.explanation);
-                    
-                    // Update counter
-                    $('#card-counter').text(`Card ${index + 1}/${questions.length}`);
-                    
-                    // Reset card to front
-                    $('#flashcard').removeClass('flipped');
-                    $('#card-definition-box').hide();
-                    
-                    // Update cards studied
-                    if (index >= cardsStudied) {
-                        cardsStudied = index + 1;
-                        updateProgressBars();
-                    }
-                }
-            }
-            
-            // ========== QUIZ FUNCTIONS ==========
-            
-            $('#prev-question').click(function() {
-                if (currentQuizIndex > 0) {
-                    currentQuizIndex--;
-                    loadQuestion(currentQuizIndex);
-                    resetQuizUI();
-                }
+            $('#reviewAnswers').click(function() {
+                currentQuestion = 1;
+                showQuestion(currentQuestion);
+                $('#examResults').addClass('hidden');
+                $('#questionContainer').show();
+                $('#prevQuestion').show();
+                $('#nextQuestion').show();
+                $('#submitExam').show();
             });
             
-            $('#check-answer').click(function() {
-                if (!selectedOption) {
-                    alert('Please select an answer first!');
-                    return;
-                }
-                
-                const questions = getCurrentQuestions();
-                const currentQuestion = questions[currentQuizIndex];
-                const isCorrect = selectedOption === currentQuestion.answer;
-                
-                // Disable all options
-                $('.option').css('pointer-events', 'none');
-                
-                // Mark correct/incorrect
-                $('.option').each(function() {
-                    const optionValue = $(this).data('value');
-                    if (optionValue === currentQuestion.answer) {
-                        $(this).addClass('correct');
-                    } else if (optionValue === selectedOption && !isCorrect) {
-                        $(this).addClass('incorrect');
-                    }
-                });
-                
-                // Update score if correct
-                if (isCorrect) {
-                    quizScore++;
-                    $('#quiz-score').text(quizScore);
-                    
-                    // Update chapter score
-                    if (currentChapter === 1) {
-                        chapter1Score = Math.max(chapter1Score, quizScore);
-                    } else if (currentChapter === 2) {
-                        chapter2Score = Math.max(chapter2Score, quizScore);
-                    } else {
-                        chapter3Score = Math.max(chapter3Score, quizScore);
-                    }
-                }
-                
-                // Show definition
-                $('#quiz-definition').html(currentQuestion.explanation);
-                $('#quiz-definition-box').slideDown();
-                
-                // Show next question button
-                $('#check-answer').hide();
-                $('#next-question').show();
+            $('#retakeExam').click(function() {
+                resetExam();
+                showQuestion(1);
+                $('#examResults').addClass('hidden');
+                $('#questionContainer').show();
+                $('#prevQuestion').show();
+                $('#nextQuestion').show();
+                $('#submitExam').show();
             });
             
-            $('#next-question').click(function() {
-                const questions = getCurrentQuestions();
-                if (currentQuizIndex < questions.length - 1) {
-                    currentQuizIndex++;
-                    loadQuestion(currentQuizIndex);
-                    resetQuizUI();
-                } else {
-                    // Quiz completed
-                    alert(`Quiz completed! Your score: ${quizScore}/${questions.length}`);
-                    updateProgressBars();
-                    switchMode('review');
-                }
-            });
-            
-            function loadQuestion(index) {
-                const questions = getCurrentQuestions();
-                if (index >= 0 && index < questions.length) {
-                    const question = questions[index];
-                    
-                    // Update question
-                    $('#quiz-question').text(question.question);
-                    
-                    // Update options
-                    $('#quiz-options').empty();
-                    question.options.forEach((optionText, i) => {
-                        const optionValue = String.fromCharCode(65 + i);
-                        const optionElement = `
-                            <div class="option" data-value="${optionValue}">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                        <strong>${optionValue}</strong>
-                                    </div>
-                                    <div>${optionText}</div>
-                                </div>
-                            </div>
-                        `;
-                        $('#quiz-options').append(optionElement);
-                    });
-                    
-                    // Update progress
-                    const progress = ((index + 1) / questions.length) * 100;
-                    $('#quiz-progress').css('width', `${progress}%`);
-                    
-                    // Reset UI
-                    resetQuizUI();
-                }
-            }
-            
-            function resetQuizUI() {
-                // Enable option selection
-                $('.option').css('pointer-events', 'auto');
-                
-                // Remove selection and correctness classes
-                $('.option').removeClass('selected correct incorrect');
-                
-                // Reset selected option
-                selectedOption = null;
-                answerChecked = false;
-                
-                // Hide definition
-                $('#quiz-definition-box').hide();
-                
-                // Show check answer button, hide next question
-                $('#check-answer').show();
-                $('#next-question').hide();
-                
-                // Add click event to options
-                $('.option').off('click').click(function() {
-                    if (!answerChecked) {
-                        $('.option').removeClass('selected');
-                        $(this).addClass('selected');
-                        selectedOption = $(this).data('value');
-                    }
-                });
-            }
-            
-            // ========== SUMMARY FUNCTIONS ==========
-            
-            function updateSummary() {
-                // Hide all summaries
-                $('#chapter1-summary, #chapter2-summary, #chapter3-summary').hide();
-                
-                // Show current chapter summary
-                $(`#chapter${currentChapter}-summary`).show();
-            }
-            
-            // ========== REVIEW FUNCTIONS ==========
-            
-            function updateReview() {
-                const totalQuestions = chapter1Questions.length + chapter2Questions.length + chapter3Questions.length;
-                
-                // Update stats
-                $('#cards-studied').text(cardsStudied);
-                
-                const currentQuestions = getCurrentQuestions();
-                const quizPercentage = currentQuestions.length > 0 ? Math.round((quizScore / currentQuestions.length) * 100) : 0;
-                $('#quiz-percentage').text(`${quizPercentage}%`);
-                
-                $('#study-time').text(studyTime);
-                
-                let masteryLevel = "Beginner";
-                if (quizPercentage >= 80 && cardsStudied >= 20) {
-                    masteryLevel = "Expert";
-                } else if (quizPercentage >= 60 || cardsStudied >= 10) {
-                    masteryLevel = "Intermediate";
-                }
-                $('#mastery-level').text(masteryLevel);
-                
-                // Update chapter progress
-                const chapter1Percentage = Math.round((chapter1Score / chapter1Questions.length) * 100);
-                const chapter2Percentage = Math.round((chapter2Score / chapter2Questions.length) * 100);
-                const chapter3Percentage = Math.round((chapter3Score / chapter3Questions.length) * 100);
-                
-                $('#chapter1-percentage').text(`${chapter1Percentage}%`);
-                $('#chapter2-percentage').text(`${chapter2Percentage}%`);
-                $('#chapter3-percentage').text(`${chapter3Percentage}%`);
-                
-                $('#chapter1-progress-review').css('width', `${chapter1Percentage}%`);
-                $('#chapter2-progress-review').css('width', `${chapter2Percentage}%`);
-                $('#chapter3-progress-review').css('width', `${chapter3Percentage}%`);
-                
-                // Update focus area recommendation
-                let focusArea = "Psychology definition and goals";
-                if (currentChapter === 1) {
-                    if (quizPercentage < 60) {
-                        focusArea = "Historical schools and founders";
-                    } else if (quizPercentage < 80) {
-                        focusArea = "Modern perspectives";
-                    }
-                } else if (currentChapter === 2) {
-                    focusArea = "Sensation vs Perception distinction";
-                    if (quizPercentage < 60) {
-                        focusArea = "Key definitions and thresholds";
-                    } else if (quizPercentage < 80) {
-                        focusArea = "Applying concepts to examples";
-                    }
-                } else {
-                    focusArea = "Classical vs Operant conditioning";
-                    if (quizPercentage < 60) {
-                        focusArea = "Learning theories and founders";
-                    } else if (quizPercentage < 80) {
-                        focusArea = "Reinforcement vs punishment";
-                    }
-                }
-                $('#focus-area').text(focusArea);
-            }
-            
-            // ========== PROGRESS TRACKING ==========
-            
-            function updateProgressBars() {
-                const totalQuestions1 = chapter1Questions.length;
-                const totalQuestions2 = chapter2Questions.length;
-                const totalQuestions3 = chapter3Questions.length;
-                
-                // Update chapter progress bars on cards
-                const chapter1Progress = Math.min(100, Math.round((cardsStudied / totalQuestions1) * 100));
-                const chapter2Progress = Math.min(100, Math.round((cardsStudied / totalQuestions2) * 100));
-                const chapter3Progress = Math.min(100, Math.round((cardsStudied / totalQuestions3) * 100));
-                
-                $('#chapter1-progress-bar').css('width', `${chapter1Progress}%`);
-                $('#chapter2-progress-bar').css('width', `${chapter2Progress}%`);
-                $('#chapter3-progress-bar').css('width', `${chapter3Progress}%`);
-                
-                $('#chapter1-progress-text').text(`${chapter1Progress}% Complete`);
-                $('#chapter2-progress-text').text(`${chapter2Progress}% Complete`);
-                $('#chapter3-progress-text').text(`${chapter3Progress}% Complete`);
-            }
-            
-            // ========== INITIALIZATION ==========
-            
-            function initApp() {
-                // Initialize chapter UI
-                updateChapterUI();
-                
-                // Load first card
-                loadCard(currentCardIndex);
-                
-                // Load first question
-                loadQuestion(currentQuizIndex);
-                
-                // Update progress bars
-                updateProgressBars();
-                
-                // Start study timer
-                setInterval(function() {
-                    studyTime++;
-                    if (currentMode === 'review') {
-                        updateReview();
-                    }
-                }, 60000); // Update every minute
-            }
-            
-            // Initialize the app
-            initApp();
+            // Initialize
+            showHomePage();
+            updateProgressTracking();
         });
+        
+        function showHomePage() {
+            $('#homePage').show();
+            $('#chaptersPage').addClass('hidden');
+            $('#chapterContent').addClass('hidden');
+            $('#recommendationsPage').addClass('hidden');
+            $('.nav-link').removeClass('active');
+            $('#homeLink').addClass('active');
+        }
+        
+        function showChaptersPage() {
+            $('#homePage').hide();
+            $('#chaptersPage').removeClass('hidden');
+            $('#chapterContent').addClass('hidden');
+            $('#recommendationsPage').addClass('hidden');
+            $('.nav-link').removeClass('active');
+            $('#chaptersLink').addClass('active');
+        }
+        
+        function showRecommendationsPage() {
+            $('#homePage').hide();
+            $('#chaptersPage').addClass('hidden');
+            $('#chapterContent').addClass('hidden');
+            $('#recommendationsPage').removeClass('hidden');
+            $('.nav-link').removeClass('active');
+            $('#recommendationsLink').addClass('active');
+            updateProgressTracking();
+        }
+        
+        function loadChapter(chapterNum) {
+            currentChapter = chapterNum;
+            const chapter = chapterData[chapterNum];
+            
+            $('#chapterTitle').text(chapter.title);
+            $('#examChapterTitle').text(`Exam: ${chapter.title}`);
+            $('#notesChapterTitle').text(`Key Notes: ${chapter.title}`);
+            $('#contentChapterTitle').text(`Original Content: ${chapter.title}`);
+            
+            // Show chapter content area
+            $('#homePage').hide();
+            $('#chaptersPage').addClass('hidden');
+            $('#chapterContent').removeClass('hidden');
+            $('#recommendationsPage').addClass('hidden');
+            
+            // Reset and load exam
+            resetExam();
+            examQuestions = [...chapter.questions];
+            
+            // Load exam by default
+            showTab('examTab');
+            
+            // Start timer
+            startTimer();
+        }
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            $('.tab-pane').removeClass('active').addClass('hidden');
+            
+            // Show selected tab
+            $(`#${tabName}`).removeClass('hidden').addClass('active');
+            
+            // Update tab navigation
+            $('#chapterTabs .nav-link').removeClass('active');
+            $(`#chapterTabs .nav-link[href="#"][onclick*="${tabName}"]`).addClass('active');
+            
+            // Load content for the tab
+            if (tabName === 'examTab') {
+                loadExam();
+            } else if (tabName === 'notesTab') {
+                loadNotes();
+            } else if (tabName === 'contentTab') {
+                loadContent();
+            }
+        }
+        
+        function loadExam() {
+            if (examQuestions.length === 0) return;
+            
+            $('#questionContainer').show();
+            $('#examResults').addClass('hidden');
+            $('#prevQuestion').show();
+            $('#nextQuestion').show();
+            $('#submitExam').show();
+            $('#feedbackContainer').addClass('hidden');
+            
+            showQuestion(currentQuestion);
+            updateQuizStats();
+        }
+        
+        function showQuestion(questionNum) {
+            if (questionNum < 1 || questionNum > examQuestions.length) return;
+            
+            const question = examQuestions[questionNum - 1];
+            const totalQuestions = examQuestions.length;
+            const progressPercent = (questionNum / totalQuestions) * 100;
+            
+            $('#questionProgress').text(`Question ${questionNum} of ${totalQuestions}`);
+            $('#progressBar').css('width', `${progressPercent}%`);
+            
+            let questionHtml = `
+                <div class="question-card">
+                    <h5>${questionNum}. ${question.question}</h5>
+                    <div id="optionsContainer">
+            `;
+            
+            question.options.forEach((option, index) => {
+                let optionClass = 'option';
+                if (userAnswers[question.id] === index) {
+                    optionClass += ' selected';
+                }
+                
+                questionHtml += `
+                    <div class="${optionClass}" data-option="${index}" onclick="selectOption(${question.id}, ${index}, ${question.correct}, '${question.explanation.replace(/'/g, "\\'")}', '${question.definition ? question.definition.replace(/'/g, "\\'") : ''}')">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+            
+            questionHtml += `
+                    </div>
+                </div>
+            `;
+            
+            $('#questionContainer').html(questionHtml);
+            
+            // Update button states
+            $('#prevQuestion').prop('disabled', questionNum === 1);
+            $('#nextQuestion').prop('disabled', questionNum === totalQuestions);
+            
+            // If reviewing answers, show correct/incorrect
+            if (!$('#examResults').hasClass('hidden')) {
+                showAnswerFeedback(question);
+            }
+        }
+        
+        function selectOption(questionId, optionIndex, correctIndex, explanation, definition) {
+            const isCorrect = optionIndex === correctIndex;
+            userAnswers[questionId] = optionIndex;
+            
+            // Show visual feedback on options
+            $(`#optionsContainer .option`).each(function(index) {
+                const $option = $(this);
+                $option.off('click'); // Remove click handlers
+                
+                if (index === correctIndex) {
+                    $option.addClass('correct');
+                } else if (index === optionIndex && !isCorrect) {
+                    $option.addClass('incorrect');
+                }
+            });
+            
+            // Update statistics
+            if (isCorrect) {
+                correctCount++;
+            } else {
+                incorrectCount++;
+            }
+            updateQuizStats();
+            
+            // Show instant feedback with definition
+            showInstantFeedback(isCorrect, explanation, definition);
+            
+            // Auto-advance to next question after 3 seconds
+            if (currentQuestion < examQuestions.length && $('#examResults').hasClass('hidden')) {
+                setTimeout(() => {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    $('#feedbackContainer').addClass('hidden');
+                }, 3000);
+            }
+        }
+        
+        function showInstantFeedback(isCorrect, explanation, definition) {
+            let feedbackHtml = '';
+            
+            if (isCorrect) {
+                feedbackHtml = `
+                    <div class="feedback-container feedback-correct">
+                        <h5><i class="fas fa-check-circle text-success me-2"></i>Correct!</h5>
+                        <p><strong>Explanation:</strong> ${explanation}</p>
+                `;
+            } else {
+                feedbackHtml = `
+                    <div class="feedback-container feedback-incorrect">
+                        <h5><i class="fas fa-times-circle text-danger me-2"></i>Incorrect</h5>
+                        <p><strong>Explanation:</strong> ${explanation}</p>
+                `;
+            }
+            
+            // Add definition if available
+            if (definition && definition.trim() !== '') {
+                feedbackHtml += `
+                    <div class="definition-box mt-3">
+                        <h6><i class="fas fa-book me-2"></i>Key Definition:</h6>
+                        <p class="mb-0">${definition}</p>
+                    </div>
+                `;
+            }
+            
+            feedbackHtml += `
+                    <div class="mt-3">
+                        <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Next question in 3 seconds...</small>
+                    </div>
+                </div>
+            `;
+            
+            $('#feedbackContainer').html(feedbackHtml).removeClass('hidden');
+            
+            // Scroll to feedback
+            $('#feedbackContainer')[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function updateQuizStats() {
+            const answeredQuestions = Object.keys(userAnswers).length;
+            const totalQuestions = examQuestions.length;
+            const score = answeredQuestions > 0 ? Math.round((correctCount / answeredQuestions) * 100) : 0;
+            
+            $('#correctCount').text(correctCount);
+            $('#incorrectCount').text(incorrectCount);
+            $('#currentScore').text(`${score}%`);
+        }
+        
+        function showAnswerFeedback(question) {
+            const correctIndex = question.correct;
+            const userIndex = userAnswers[question.id];
+            
+            $(`#optionsContainer .option`).each(function(index) {
+                const $option = $(this);
+                if (index === correctIndex) {
+                    $option.addClass('correct');
+                } else if (index === userIndex && userIndex !== correctIndex) {
+                    $option.addClass('incorrect');
+                }
+                
+                // Remove click handler during review
+                $option.off('click');
+            });
+            
+            // Add explanation
+            let feedbackHtml = `
+                <div class="feedback-container ${userIndex === correctIndex ? 'feedback-correct' : 'feedback-incorrect'}">
+                    <h5><i class="fas ${userIndex === correctIndex ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-2"></i>${userIndex === correctIndex ? 'Correct!' : 'Incorrect'}</h5>
+                    <p><strong>Explanation:</strong> ${question.explanation}</p>
+            `;
+            
+            // Add definition if available
+            if (question.definition && question.definition.trim() !== '') {
+                feedbackHtml += `
+                    <div class="definition-box mt-3">
+                        <h6><i class="fas fa-book me-2"></i>Key Definition:</h6>
+                        <p class="mb-0">${question.definition}</p>
+                    </div>
+                `;
+            }
+            
+            feedbackHtml += `</div>`;
+            
+            $('#feedbackContainer').html(feedbackHtml).removeClass('hidden');
+        }
+        
+        function submitExam() {
+            clearInterval(examTimer);
+            
+            // Calculate final score
+            let score = 0;
+            examQuestions.forEach(question => {
+                if (userAnswers[question.id] === question.correct) {
+                    score++;
+                }
+            });
+            
+            const percentage = Math.round((score / examQuestions.length) * 100);
+            const scoreDisplay = `${score}/${examQuestions.length} (${percentage}%)`;
+            
+            $('#scoreDisplay').text(scoreDisplay);
+            $('#finalCorrect').text(score);
+            $('#totalQuestions').text(examQuestions.length);
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = 'Excellent! You have a strong understanding of this chapter.';
+                $('#scoreDisplay').removeClass('bg-warning bg-danger').addClass('bg-success');
+            } else if (percentage >= 60) {
+                message = 'Good job! You understand most concepts but could review some areas.';
+                $('#scoreDisplay').removeClass('bg-success bg-danger').addClass('bg-warning');
+            } else {
+                message = 'Keep studying! Review the key notes and original content to improve.';
+                $('#scoreDisplay').removeClass('bg-success bg-warning').addClass('bg-danger');
+            }
+            
+            $('#resultMessage').text(message);
+            
+            $('#questionContainer').hide();
+            $('#prevQuestion').hide();
+            $('#nextQuestion').hide();
+            $('#submitExam').hide();
+            $('#feedbackContainer').addClass('hidden');
+            $('#examResults').removeClass('hidden');
+            
+            // Save score to localStorage
+            saveScore(currentChapter, percentage);
+            updateProgressTracking();
+        }
+        
+        function resetExam() {
+            currentQuestion = 1;
+            userAnswers = {};
+            correctCount = 0;
+            incorrectCount = 0;
+            timeLeft = 1800; // Reset to 30 minutes
+            updateTimerDisplay();
+            updateQuizStats();
+            startTimer();
+        }
+        
+        function startTimer() {
+            clearInterval(examTimer);
+            examTimer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(examTimer);
+                    if ($('#examTab').hasClass('active') && $('#examResults').hasClass('hidden')) {
+                        submitExam();
+                    }
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            $('#timer').text(`Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+            
+            // Change color when time is running low
+            if (timeLeft < 300) { // Less than 5 minutes
+                $('#timer').removeClass('bg-secondary').addClass('bg-danger');
+            } else if (timeLeft < 600) { // Less than 10 minutes
+                $('#timer').removeClass('bg-secondary').addClass('bg-warning');
+            } else {
+                $('#timer').removeClass('bg-danger bg-warning').addClass('bg-secondary');
+            }
+        }
+        
+        function loadNotes() {
+            const chapter = chapterData[currentChapter];
+            let notesHtml = '<ul class="list-unstyled">';
+            
+            chapter.notes.forEach(note => {
+                notesHtml += `<li class="note-item"><i class="fas fa-check-circle text-success me-2"></i>${note}</li>`;
+            });
+            
+            notesHtml += '</ul>';
+            
+            $('#keyNotesContent').html(notesHtml);
+        }
+        
+        function loadContent() {
+            const chapter = chapterData[currentChapter];
+            $('#originalContent').html(chapter.content);
+        }
+        
+        function saveScore(chapter, percentage) {
+            const storageKey = `geo_chapter_${chapter}_scores`;
+            let scores = JSON.parse(localStorage.getItem(storageKey)) || [];
+            scores.push({
+                date: new Date().toISOString(),
+                score: percentage
+            });
+            
+            // Keep only last 10 scores
+            if (scores.length > 10) {
+                scores = scores.slice(-10);
+            }
+            
+            localStorage.setItem(storageKey, JSON.stringify(scores));
+            
+            // Update best score
+            const bestScore = Math.max(...scores.map(s => s.score));
+            localStorage.setItem(`geo_chapter_${chapter}_best`, bestScore);
+            
+            // Update attempts
+            localStorage.setItem(`geo_chapter_${chapter}_attempts`, scores.length);
+            
+            // Update last score
+            localStorage.setItem(`geo_chapter_${chapter}_last`, percentage);
+        }
+        
+        function updateProgressTracking() {
+            for (let i = 1; i <= 3; i++) {
+                const lastScore = localStorage.getItem(`geo_chapter_${i}_last`);
+                const bestScore = localStorage.getItem(`geo_chapter_${i}_best`);
+                const attempts = localStorage.getItem(`geo_chapter_${i}_attempts`) || 0;
+                
+                $(`#ch${i}Score`).text(lastScore ? `${lastScore}%` : 'Not taken');
+                $(`#ch${i}Best`).text(bestScore ? `${bestScore}%` : '-');
+                $(`#ch${i}Attempts`).text(attempts);
+                
+                let recommendation = 'Take the exam';
+                if (lastScore) {
+                    if (lastScore >= 80) {
+                        recommendation = 'Excellent! Move to next chapter';
+                    } else if (lastScore >= 60) {
+                        recommendation = 'Good, but review weak areas';
+                    } else {
+                        recommendation = 'Review key notes and retake exam';
+                    }
+                }
+                $(`#ch${i}Rec`).text(recommendation);
+            }
+        }
+
+        // Make functions available globally
+        window.loadChapter = loadChapter;
+        window.selectOption = selectOption;
+        window.showTab = showTab;
     </script>
 </body>
 </html>

@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Study Suite | Chapters 1-3</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        :root {
+            --chapter1: #9c89b8;
+            --chapter2: #4a90e2;
+            --chapter3: #6dc0a7;
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #ff6b6b;
+            --success: #51cf66;
+            --warning: #ff922b;
+            --info: #339af0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, var(--chapter1), var(--chapter2), var(--chapter3));
+            color: white;
+        }
+        
+        .chapter-card {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .chapter1-card {
+            border-top: 5px solid var(--chapter1);
+        }
+        
+        .chapter2-card {
+            border-top: 5px solid var(--chapter2);
+        }
+        
+        .chapter3-card {
+            border-top: 5px solid var(--chapter3);
+        }
+        
+        .mode-card {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .mode-card.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .mode-card.active .mode-icon {
+            color: white;
+        }
+        
+        .flashcard {
+            height: 400px;
+            perspective: 1000px;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .flashcard-back {
+            background-color: white;
+            color: var(--dark);
+            transform: rotateY(180deg);
+            border: 3px solid var(--primary);
+        }
+        
+        .option {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background-color: rgba(81, 207, 102, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--accent);
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+        
+        .progress-chapter {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .telegram-btn:hover {
+            background: #0077b5;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.2);
+        }
+        
+        .definition-box {
+            border-left: 5px solid var(--info);
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .chapter-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .chapter1-badge {
+            background: var(--chapter1);
+            color: white;
+        }
+        
+        .chapter2-badge {
+            background: var(--chapter2);
+            color: white;
+        }
+        
+        .chapter3-badge {
+            background: var(--chapter3);
+            color: white;
+        }
+        
+        .stats-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 25px;
+            text-align: center;
+            border-top: 5px solid var(--accent);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .flashcard {
+                height: 350px;
+            }
+            
+            .stat-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="container">
+        <div class="header-gradient rounded-4 p-4 p-md-5 mb-4 text-center shadow">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-brain me-2"></i>Psychology Study Suite
+            </h1>
+            <p class="lead mb-4">Master Chapters 1-3 with Interactive Flashcards, Quizzes, and Summaries</p>
+            
+            <!-- NS11 Fresh Batch Section -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-4 p-4 mb-3 shadow-sm">
+                        <h4 class="mb-3 text-dark">
+                            <i class="fas fa-users me-2 text-info"></i>NS11 Fresh Batch
+                        </h4>
+                        <p class="text-dark mb-3">Join our Telegram group for discussions, study materials, and updates!</p>
+                        <a href="https://t.me/NS11fresh" target="_blank" class="telegram-btn">
+                            <i class="fab fa-telegram"></i> Join NS11 Fresh on Telegram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chapter Selection -->
+    <div class="container mb-5">
+        <h3 class="text-center mb-4">Select Chapter</h3>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="chapter-card chapter1-card p-4 text-center" data-chapter="1">
+                    <div class="mb-3">
+                        <i class="fas fa-book-open fa-3x" style="color: var(--chapter1);"></i>
+                    </div>
+                    <h4>Chapter 1</h4>
+                    <h5 class="mb-3">Essence of Psychology</h5>
+                    <p class="text-muted">30 MCQs with definitions</p>
+                    <div class="progress progress-chapter">
+                        <div class="progress-bar" style="background-color: var(--chapter1); width: 0%;" id="chapter1-progress-bar"></div>
+                    </div>
+                    <div class="mt-2" id="chapter1-progress-text">0% Complete</div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="chapter-card chapter2-card p-4 text-center" data-chapter="2">
+                    <div class="mb-3">
+                        <i class="fas fa-eye fa-3x" style="color: var(--chapter2);"></i>
+                    </div>
+                    <h4>Chapter 2</h4>
+                    <h5 class="mb-3">Sensation & Perception</h5>
+                    <p class="text-muted">25 MCQs with definitions</p>
+                    <div class="progress progress-chapter">
+                        <div class="progress-bar" style="background-color: var(--chapter2); width: 0%;" id="chapter2-progress-bar"></div>
+                    </div>
+                    <div class="mt-2" id="chapter2-progress-text">0% Complete</div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="chapter-card chapter3-card p-4 text-center" data-chapter="3">
+                    <div class="mb-3">
+                        <i class="fas fa-graduation-cap fa-3x" style="color: var(--chapter3);"></i>
+                    </div>
+                    <h4>Chapter 3</h4>
+                    <h5 class="mb-3">Learning Theories</h5>
+                    <p class="text-muted">25 MCQs with definitions</p>
+                    <div class="progress progress-chapter">
+                        <div class="progress-bar" style="background-color: var(--chapter3); width: 0%;" id="chapter3-progress-bar"></div>
+                    </div>
+                    <div class="mt-2" id="chapter3-progress-text">0% Complete</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Study Modes -->
+    <div class="container mb-5">
+        <h3 class="text-center mb-4">Select Study Mode</h3>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="mode-card p-4 text-center active" data-mode="flashcards">
+                    <div class="mb-3">
+                        <i class="fas fa-layer-group fa-3x mode-icon" style="color: var(--primary);"></i>
+                    </div>
+                    <h5>Flashcards</h5>
+                    <p class="text-muted small">Flip cards to learn concepts</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="mode-card p-4 text-center" data-mode="quiz">
+                    <div class="mb-3">
+                        <i class="fas fa-question-circle fa-3x mode-icon" style="color: var(--primary);"></i>
+                    </div>
+                    <h5>Quiz Mode</h5>
+                    <p class="text-muted small">Test your knowledge</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="mode-card p-4 text-center" data-mode="summary">
+                    <div class="mb-3">
+                        <i class="fas fa-book-open fa-3x mode-icon" style="color: var(--primary);"></i>
+                    </div>
+                    <h5>Chapter Summary</h5>
+                    <p class="text-muted small">Key concepts overview</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="mode-card p-4 text-center" data-mode="review">
+                    <div class="mb-3">
+                        <i class="fas fa-chart-bar fa-3x mode-icon" style="color: var(--primary);"></i>
+                    </div>
+                    <h5>Progress Review</h5>
+                    <p class="text-muted small">Track your learning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Flashcards Mode -->
+                <div id="flashcards-mode" class="study-mode">
+                    <div class="card border-0 shadow-lg mb-4">
+                        <div class="card-body p-4">
+                            <div class="flashcard" id="flashcard">
+                                <div class="flashcard-inner">
+                                    <!-- Front of Card -->
+                                    <div class="flashcard-front">
+                                        <div class="chapter-badge chapter1-badge" id="card-chapter-badge">Chapter 1</div>
+                                        <h3 class="mb-4" id="card-question">Psychology is best defined as the scientific study of:</h3>
+                                        <p class="mb-0"><i>Click the card to reveal the answer</i></p>
+                                    </div>
+                                    
+                                    <!-- Back of Card -->
+                                    <div class="flashcard-back">
+                                        <div class="chapter-badge chapter1-badge">Chapter 1</div>
+                                        <h4 class="mb-3" id="card-answer">C. Human behavior and mental processes</h4>
+                                        <div class="definition-box" id="card-definition-box">
+                                            <h5><i class="fas fa-info-circle me-2"></i>Definition</h5>
+                                            <p id="card-definition">Psychology scientifically studies <strong>behavior (observable actions)</strong> and <strong>mental processes (thinking, feeling, remembering)</strong>.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div>
+                                    <span id="card-counter">Card 1/80</span>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-primary me-2" id="prev-card">
+                                        <i class="fas fa-chevron-left me-1"></i> Previous
+                                    </button>
+                                    <button class="btn btn-primary" id="flip-card">
+                                        <i class="fas fa-sync-alt me-1"></i> Flip Card
+                                    </button>
+                                    <button class="btn btn-outline-primary ms-2" id="next-card">
+                                        Next <i class="fas fa-chevron-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quiz Mode -->
+                <div id="quiz-mode" class="study-mode" style="display: none;">
+                    <div class="card border-0 shadow-lg mb-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 id="quiz-title">Chapter 1 Quiz</h4>
+                                <div class="badge bg-primary fs-6 p-2">
+                                    Score: <span id="quiz-score">0</span>/<span id="quiz-total">30</span>
+                                </div>
+                            </div>
+                            
+                            <div class="progress mb-4" style="height: 10px;">
+                                <div class="progress-bar" id="quiz-progress" style="width: 0%;"></div>
+                            </div>
+                            
+                            <h5 class="mb-4" id="quiz-question">Psychology is best defined as the scientific study of:</h5>
+                            
+                            <div id="quiz-options">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                            
+                            <div class="definition-box" id="quiz-definition-box">
+                                <h5><i class="fas fa-info-circle me-2"></i>Definition</h5>
+                                <p id="quiz-definition"></p>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-outline-primary" id="prev-question">
+                                    <i class="fas fa-chevron-left me-1"></i> Previous
+                                </button>
+                                <button class="btn btn-primary" id="check-answer">
+                                    <i class="fas fa-check-circle me-1"></i> Check Answer
+                                </button>
+                                <button class="btn btn-success" id="next-question" style="display: none;">
+                                    Next Question <i class="fas fa-chevron-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary Mode -->
+                <div id="summary-mode" class="study-mode" style="display: none;">
+                    <div class="card border-0 shadow-lg mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="mb-4" id="summary-title">Chapter 1 Summary</h4>
+                            
+                            <!-- Chapter 1 Summary -->
+                            <div id="chapter1-summary">
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-graduation-cap me-2" style="color: var(--chapter1);"></i>Psychology Basics</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Psychology:</strong> Study of behavior & mind</li>
+                                                    <li class="mb-2"><strong>Behavior:</strong> Observable actions</li>
+                                                    <li class="mb-2"><strong>Mental Processes:</strong> Thinking, feeling</li>
+                                                    <li class="mb-2"><strong>Goals:</strong> Describe, explain, predict, control</li>
+                                                    <li><strong>1879:</strong> Psychology founded</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-history me-2" style="color: var(--chapter1);"></i>Historical Schools</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Structuralism:</strong> Wundt & Titchener</li>
+                                                    <li class="mb-2"><strong>Functionalism:</strong> William James</li>
+                                                    <li class="mb-2"><strong>Behaviorism:</strong> John Watson</li>
+                                                    <li class="mb-2"><strong>Psychoanalysis:</strong> Sigmund Freud</li>
+                                                    <li><strong>Gestalt:</strong> Whole > Sum of parts</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-binoculars me-2" style="color: var(--chapter1);"></i>Modern Perspectives</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Humanistic:</strong> Free will & growth</li>
+                                                    <li class="mb-2"><strong>Cognitive:</strong> Thinking & memory</li>
+                                                    <li class="mb-2"><strong>Biological:</strong> Brain & genetics</li>
+                                                    <li class="mb-2"><strong>Sociocultural:</strong> Culture & society</li>
+                                                    <li><strong>Developmental:</strong> Lifespan changes</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-warning">
+                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 1</h5>
+                                    <p class="mb-0">Focus on: Psychology definition (behavior + mental processes), goals of psychology, historical schools (founders and key ideas), modern perspectives, and research methods.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Chapter 2 Summary -->
+                            <div id="chapter2-summary" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-eye me-2" style="color: var(--chapter2);"></i>Sensation Basics</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Sensation:</strong> Detection of stimuli</li>
+                                                    <li class="mb-2"><strong>Perception:</strong> Interpretation of stimuli</li>
+                                                    <li class="mb-2"><strong>Transduction:</strong> Energy conversion</li>
+                                                    <li class="mb-2"><strong>Absolute Threshold:</strong> Minimum detectable stimulus</li>
+                                                    <li><strong>Difference Threshold:</strong> Smallest detectable difference</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-ear-listen me-2" style="color: var(--chapter2);"></i>Senses</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Vision:</strong> Eye detects light</li>
+                                                    <li class="mb-2"><strong>Audition:</strong> Hearing sense</li>
+                                                    <li class="mb-2"><strong>Olfaction:</strong> Sense of smell</li>
+                                                    <li class="mb-2"><strong>Gustation:</strong> Sense of taste</li>
+                                                    <li><strong>Vestibular:</strong> Balance sense</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-brain me-2" style="color: var(--chapter2);"></i>Perception Concepts</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Gestalt Psychology:</strong> Whole experience</li>
+                                                    <li class="mb-2"><strong>Figure-Ground:</strong> Object vs background</li>
+                                                    <li class="mb-2"><strong>Perceptual Constancy:</strong> Stable perception</li>
+                                                    <li class="mb-2"><strong>Depth Perception:</strong> Judging distance</li>
+                                                    <li><strong>Illusion:</strong> Misinterpretation of stimuli</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-warning">
+                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 2</h5>
+                                    <p class="mb-0">Focus on: Sensation vs Perception, Thresholds (Absolute & Difference), Gestalt laws, Illusion vs Hallucination, Sensory Adaptation, and Perceptual Constancy.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Chapter 3 Summary -->
+                            <div id="chapter3-summary" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-graduation-cap me-2" style="color: var(--chapter3);"></i>Learning Basics</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Learning:</strong> Permanent behavioral change</li>
+                                                    <li class="mb-2"><strong>Characteristics:</strong> Change, experience, goal-directed</li>
+                                                    <li class="mb-2"><strong>Maturation:</strong> Biological growth (not learning)</li>
+                                                    <li class="mb-2"><strong>Law of Exercise:</strong> Practice improves performance</li>
+                                                    <li><strong>Law of Effect:</strong> Thorndike's satisfaction principle</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-brain me-2" style="color: var(--chapter3);"></i>Learning Theories</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Classical Conditioning:</strong> Pavlov (stimulus association)</li>
+                                                    <li class="mb-2"><strong>Operant Conditioning:</strong> Skinner (consequences)</li>
+                                                    <li class="mb-2"><strong>Social Learning:</strong> Bandura (observation)</li>
+                                                    <li class="mb-2"><strong>Insight Learning:</strong> Köhler (sudden understanding)</li>
+                                                    <li><strong>Cognitive Theory:</strong> Mental processes focus</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><i class="fas fa-sliders-h me-2" style="color: var(--chapter3);"></i>Learning Concepts</h5>
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-2"><strong>Reinforcement:</strong> Increases behavior</li>
+                                                    <li class="mb-2"><strong>Punishment:</strong> Decreases behavior</li>
+                                                    <li class="mb-2"><strong>Positive Reinforcement:</strong> Adding something pleasant</li>
+                                                    <li class="mb-2"><strong>Observational Learning:</strong> Attention, retention, reproduction, motivation</li>
+                                                    <li><strong>Trial & Error:</strong> Thorndike's repeated attempts</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-warning">
+                                    <h5><i class="fas fa-lightbulb me-2"></i>Midterm Tips - Chapter 3</h5>
+                                    <p class="mb-0">Focus on: Learning definition, Classical vs Operant conditioning, Reinforcement vs Punishment, Social learning theory (Bandura), Insight learning (Köhler), and factors influencing learning.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Review Mode -->
+                <div id="review-mode" class="study-mode" style="display: none;">
+                    <div class="card border-0 shadow-lg mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="mb-4">Progress Review</h4>
+                            
+                            <div class="row mb-5">
+                                <div class="col-md-3 col-6 mb-4">
+                                    <div class="stats-card">
+                                        <div class="stat-value" id="cards-studied">0</div>
+                                        <p>Cards Studied</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3 col-6 mb-4">
+                                    <div class="stats-card">
+                                        <div class="stat-value" id="quiz-percentage">0%</div>
+                                        <p>Quiz Score</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3 col-6 mb-4">
+                                    <div class="stats-card">
+                                        <div class="stat-value" id="study-time">0</div>
+                                        <p>Study Time (min)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3 col-6 mb-4">
+                                    <div class="stats-card">
+                                        <div class="stat-value" id="mastery-level">Beginner</div>
+                                        <p>Mastery Level</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h5 class="mb-3">Chapter Progress</h5>
+                            <div class="row mb-4">
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Chapter 1</span>
+                                        <span id="chapter1-percentage">0%</span>
+                                    </div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar" style="background-color: var(--chapter1); width: 0%;" id="chapter1-progress-review"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Chapter 2</span>
+                                        <span id="chapter2-percentage">0%</span>
+                                    </div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar" style="background-color: var(--chapter2); width: 0%;" id="chapter2-progress-review"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Chapter 3</span>
+                                        <span id="chapter3-percentage">0%</span>
+                                    </div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar" style="background-color: var(--chapter3); width: 0%;" id="chapter3-progress-review"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h5><i class="fas fa-rocket me-2"></i>Study Recommendations</h5>
+                                <p class="mb-0">Based on your progress, we recommend focusing on: <span id="focus-area">Psychology definition and goals</span>.</p>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <a href="https://t.me/NS11fresh" target="_blank" class="telegram-btn">
+                                    <i class="fab fa-telegram"></i> Connect with NS11 Fresh Batch on Telegram
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="container mt-5 pt-4 border-top">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text-muted">Psychology Study Suite | Chapters 1-3</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="text-muted">NS11 Fresh Batch | Telegram: <a href="https://t.me/NS11fresh" target="_blank">t.me/NS11fresh</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // ========== ALL QUESTIONS DATA ==========
+            
+            // Chapter 1: Essence of Psychology (30 questions)
+            const chapter1Questions = [
+                {
+                    question: "Psychology is best defined as the scientific study of:",
+                    options: [
+                        "A. The human soul",
+                        "B. Human behavior only",
+                        "C. Human behavior and mental processes",
+                        "D. Human feelings only"
+                    ],
+                    answer: "C",
+                    explanation: "Psychology scientifically studies <strong>behavior (observable actions)</strong> and <strong>mental processes (thinking, feeling, remembering)</strong>."
+                },
+                {
+                    question: "The term 'psychology' is derived from Greek words meaning:",
+                    options: [
+                        "A. Brain and behavior",
+                        "B. Mind and study",
+                        "C. Soul and medicine",
+                        "D. Behavior and science"
+                    ],
+                    answer: "B",
+                    explanation: "<em>Psyche</em> = mind/soul, <em>Logos</em> = study."
+                },
+                {
+                    question: "Which of the following represents an example of behavior?",
+                    options: [
+                        "A. Thinking",
+                        "B. Remembering",
+                        "C. Feeling angry",
+                        "D. Talking"
+                    ],
+                    answer: "D",
+                    explanation: "Behavior refers to <strong>observable actions</strong> like speaking or walking."
+                },
+                {
+                    question: "Mental processes are best described as:",
+                    options: [
+                        "A. Observable actions",
+                        "B. Physical movements",
+                        "C. Internal and covert activities",
+                        "D. Reflex actions"
+                    ],
+                    answer: "C",
+                    explanation: "Mental processes include <strong>thinking, perception, memory, and emotions</strong>."
+                },
+                {
+                    question: "Which of the following is NOT a goal of psychology?",
+                    options: [
+                        "A. Description",
+                        "B. Explanation",
+                        "C. Prediction",
+                        "D. Elimination"
+                    ],
+                    answer: "D",
+                    explanation: "Psychology aims to <strong>describe, explain, predict, and control</strong> behavior—not eliminate it."
+                },
+                {
+                    question: "The goal of psychology that answers 'Why does behavior occur?' is:",
+                    options: [
+                        "A. Description",
+                        "B. Prediction",
+                        "C. Explanation",
+                        "D. Control"
+                    ],
+                    answer: "C",
+                    explanation: "Explanation seeks the <strong>causes or reasons</strong> behind behavior."
+                },
+                {
+                    question: "Which goal of psychology focuses on changing undesirable behavior?",
+                    options: [
+                        "A. Prediction",
+                        "B. Control",
+                        "C. Explanation",
+                        "D. Description"
+                    ],
+                    answer: "B",
+                    explanation: "Control aims to <strong>modify behavior</strong> in a positive direction."
+                },
+                {
+                    question: "Psychology became an independent science in:",
+                    options: [
+                        "A. 1850",
+                        "B. 1879",
+                        "C. 1900",
+                        "D. 1920"
+                    ],
+                    answer: "B",
+                    explanation: "Psychology officially began in <strong>1879</strong> with Wilhelm Wundt."
+                },
+                {
+                    question: "The first psychology laboratory was established by:",
+                    options: [
+                        "A. Sigmund Freud",
+                        "B. William James",
+                        "C. Wilhelm Wundt",
+                        "D. John Watson"
+                    ],
+                    answer: "C",
+                    explanation: "Wilhelm Wundt is called the <strong>father of modern psychology</strong>."
+                },
+                {
+                    question: "Structuralism mainly focused on studying:",
+                    options: [
+                        "A. Behavior",
+                        "B. The unconscious mind",
+                        "C. Structure of the mind",
+                        "D. Human emotions"
+                    ],
+                    answer: "C",
+                    explanation: "Structuralism studied <strong>elements of consciousness</strong> using introspection."
+                },
+                {
+                    question: "The founder of structuralism was:",
+                    options: [
+                        "A. Wilhelm Wundt",
+                        "B. Edward Titchener",
+                        "C. John Watson",
+                        "D. William James"
+                    ],
+                    answer: "B",
+                    explanation: "Titchener expanded Wundt's ideas into structuralism."
+                },
+                {
+                    question: "Functionalism emphasizes:",
+                    options: [
+                        "A. Structure of mind",
+                        "B. Functions of mind",
+                        "C. Unconscious conflicts",
+                        "D. Reflexes"
+                    ],
+                    answer: "B",
+                    explanation: "Functionalism studies <strong>how mental processes help adaptation</strong>."
+                },
+                {
+                    question: "The founder of functionalism was:",
+                    options: [
+                        "A. Freud",
+                        "B. Wundt",
+                        "C. William James",
+                        "D. Skinner"
+                    ],
+                    answer: "C",
+                    explanation: "William James focused on <strong>how the mind works in daily life</strong>."
+                },
+                {
+                    question: "Which school emphasized 'the whole is greater than the sum of its parts'?",
+                    options: [
+                        "A. Behaviorism",
+                        "B. Structuralism",
+                        "C. Gestalt psychology",
+                        "D. Psychoanalysis"
+                    ],
+                    answer: "C",
+                    explanation: "Gestalt psychology studies perception as <strong>organized wholes</strong>."
+                },
+                {
+                    question: "Behaviorism focuses mainly on:",
+                    options: [
+                        "A. Consciousness",
+                        "B. Unconscious motives",
+                        "C. Observable behavior",
+                        "D. Feelings"
+                    ],
+                    answer: "C",
+                    explanation: "Behaviorists study <strong>observable and measurable behavior</strong>."
+                },
+                {
+                    question: "The founder of behaviorism was:",
+                    options: [
+                        "A. Skinner",
+                        "B. Watson",
+                        "C. Thorndike",
+                        "D. Pavlov"
+                    ],
+                    answer: "B",
+                    explanation: "John B. Watson rejected mental processes in psychology."
+                },
+                {
+                    question: "Psychoanalysis emphasizes the role of:",
+                    options: [
+                        "A. Learning",
+                        "B. Conscious mind",
+                        "C. Unconscious processes",
+                        "D. Environment"
+                    ],
+                    answer: "C",
+                    explanation: "Psychoanalysis focuses on <strong>hidden unconscious conflicts</strong>."
+                },
+                {
+                    question: "The founder of psychoanalysis was:",
+                    options: [
+                        "A. Carl Rogers",
+                        "B. Sigmund Freud",
+                        "C. John Watson",
+                        "D. William James"
+                    ],
+                    answer: "B",
+                    explanation: "Freud emphasized dreams, childhood, and unconscious motives."
+                },
+                {
+                    question: "Which modern perspective focuses on free will and self-actualization?",
+                    options: [
+                        "A. Behavioral",
+                        "B. Cognitive",
+                        "C. Humanistic",
+                        "D. Biological"
+                    ],
+                    answer: "C",
+                    explanation: "Humanistic psychology stresses <strong>personal growth and choice</strong>."
+                },
+                {
+                    question: "The cognitive perspective studies:",
+                    options: [
+                        "A. Hormones",
+                        "B. Rewards and punishment",
+                        "C. Thinking and memory",
+                        "D. Culture"
+                    ],
+                    answer: "C",
+                    explanation: "Cognitive psychology focuses on <strong>mental processes</strong>."
+                },
+                {
+                    question: "The biological perspective emphasizes:",
+                    options: [
+                        "A. Culture",
+                        "B. Brain and genetics",
+                        "C. Learning",
+                        "D. Motivation"
+                    ],
+                    answer: "B",
+                    explanation: "It studies how <strong>brain structure and chemicals</strong> affect behavior."
+                },
+                {
+                    question: "Which perspective studies behavior in cultural context?",
+                    options: [
+                        "A. Biological",
+                        "B. Cognitive",
+                        "C. Sociocultural",
+                        "D. Behavioral"
+                    ],
+                    answer: "C",
+                    explanation: "Sociocultural psychology emphasizes <strong>social and cultural influence</strong>."
+                },
+                {
+                    question: "Developmental psychology studies:",
+                    options: [
+                        "A. Personality traits",
+                        "B. Mental illness",
+                        "C. Changes across lifespan",
+                        "D. Learning"
+                    ],
+                    answer: "C",
+                    explanation: "It examines <strong>physical, cognitive, and emotional growth</strong>."
+                },
+                {
+                    question: "Clinical psychology mainly deals with:",
+                    options: [
+                        "A. Education",
+                        "B. Mental disorders",
+                        "C. Industry",
+                        "D. Law"
+                    ],
+                    answer: "B",
+                    explanation: "Clinical psychologists <strong>diagnose and treat psychological disorders</strong>."
+                },
+                {
+                    question: "A scientific method is best described as:",
+                    options: [
+                        "A. Guessing",
+                        "B. Observation only",
+                        "C. Systematic testing of ideas",
+                        "D. Personal opinion"
+                    ],
+                    answer: "C",
+                    explanation: "Scientific method reduces bias using <strong>observation and experimentation</strong>."
+                },
+                {
+                    question: "A hypothesis is:",
+                    options: [
+                        "A. A proven fact",
+                        "B. A random idea",
+                        "C. A testable statement",
+                        "D. A conclusion"
+                    ],
+                    answer: "C",
+                    explanation: "A hypothesis predicts the <strong>relationship between variables</strong>."
+                },
+                {
+                    question: "Which research method describes behavior without manipulation?",
+                    options: [
+                        "A. Experimental",
+                        "B. Correlational",
+                        "C. Descriptive",
+                        "D. Clinical"
+                    ],
+                    answer: "C",
+                    explanation: "Descriptive research <strong>observes and records behavior</strong>."
+                },
+                {
+                    question: "Naturalistic observation means:",
+                    options: [
+                        "A. Observing in labs",
+                        "B. Observing in natural settings",
+                        "C. Using surveys",
+                        "D. Interviewing"
+                    ],
+                    answer: "B",
+                    explanation: "Behavior is studied in its <strong>real-life environment</strong>."
+                },
+                {
+                    question: "Correlation shows:",
+                    options: [
+                        "A. Cause and effect",
+                        "B. Randomness",
+                        "C. Relationship between variables",
+                        "D. Experiment results"
+                    ],
+                    answer: "C",
+                    explanation: "Correlation measures <strong>association, not causation</strong>."
+                },
+                {
+                    question: "Experimental research is best for studying:",
+                    options: [
+                        "A. Opinions",
+                        "B. Descriptions",
+                        "C. Cause and effect",
+                        "D. Observation"
+                    ],
+                    answer: "C",
+                    explanation: "Experiments manipulate variables to determine <strong>cause-effect relationships</strong>."
+                }
+            ];
+            
+            // Chapter 2: Sensation & Perception (25 questions)
+            const chapter2Questions = [
+                {
+                    question: "Sensation refers to:",
+                    options: [
+                        "A. Interpretation of stimuli",
+                        "B. Meaning given to experience",
+                        "C. Detection of stimuli by sense organs",
+                        "D. Learning process"
+                    ],
+                    answer: "C",
+                    explanation: "Sensation is the process by which sense organs detect physical stimuli from the environment."
+                },
+                {
+                    question: "Perception is best defined as:",
+                    options: [
+                        "A. Receiving stimuli",
+                        "B. Organizing and interpreting sensory information",
+                        "C. Stimulus detection",
+                        "D. Reflex action"
+                    ],
+                    answer: "B",
+                    explanation: "Perception is the process of organizing and interpreting sensory information to give it meaning."
+                },
+                {
+                    question: "The sense organ for vision is:",
+                    options: [
+                        "A. Ear",
+                        "B. Nose",
+                        "C. Eye",
+                        "D. Skin"
+                    ],
+                    answer: "C",
+                    explanation: "The eye detects light and enables vision."
+                },
+                {
+                    question: "Which sense is related to hearing?",
+                    options: [
+                        "A. Vision",
+                        "B. Olfaction",
+                        "C. Audition",
+                        "D. Gustation"
+                    ],
+                    answer: "C",
+                    explanation: "Audition is the sense of hearing."
+                },
+                {
+                    question: "The process of converting physical energy into neural signals is called:",
+                    options: [
+                        "A. Adaptation",
+                        "B. Transduction",
+                        "C. Perception",
+                        "D. Threshold"
+                    ],
+                    answer: "B",
+                    explanation: "Transduction is the conversion of physical energy into nerve impulses."
+                },
+                {
+                    question: "Absolute threshold is:",
+                    options: [
+                        "A. Maximum stimulus",
+                        "B. Difference between two stimuli",
+                        "C. Minimum detectable stimulus",
+                        "D. Adaptation level"
+                    ],
+                    answer: "C",
+                    explanation: "Absolute threshold is the minimum intensity of a stimulus that can be detected."
+                },
+                {
+                    question: "Difference threshold refers to:",
+                    options: [
+                        "A. Total sensation",
+                        "B. Change in perception",
+                        "C. Minimum difference between two stimuli",
+                        "D. Sensory adaptation"
+                    ],
+                    answer: "C",
+                    explanation: "Difference threshold is the smallest detectable difference between two stimuli."
+                },
+                {
+                    question: "Weber's Law states that:",
+                    options: [
+                        "A. Perception is subjective",
+                        "B. Sensation depends on adaptation",
+                        "C. Change in stimulus is proportional",
+                        "D. Stimuli are constant"
+                    ],
+                    answer: "C",
+                    explanation: "Weber's Law states that the noticeable difference between stimuli is proportional to the original stimulus."
+                },
+                {
+                    question: "Sensory adaptation is:",
+                    options: [
+                        "A. Increased sensitivity",
+                        "B. Reduced sensitivity to constant stimuli",
+                        "C. Learning process",
+                        "D. Perceptual illusion"
+                    ],
+                    answer: "B",
+                    explanation: "Sensory adaptation is reduced sensitivity to an unchanging stimulus over time."
+                },
+                {
+                    question: "Which sense helps in identifying smell?",
+                    options: [
+                        "A. Gustation",
+                        "B. Audition",
+                        "C. Olfaction",
+                        "D. Vision"
+                    ],
+                    answer: "C",
+                    explanation: "Olfaction is the sense of smell."
+                },
+                {
+                    question: "Gustation refers to the sense of:",
+                    options: [
+                        "A. Touch",
+                        "B. Taste",
+                        "C. Smell",
+                        "D. Hearing"
+                    ],
+                    answer: "B",
+                    explanation: "Gustation is the sense of taste."
+                },
+                {
+                    question: "The skin sense includes:",
+                    options: [
+                        "A. Vision only",
+                        "B. Hearing only",
+                        "C. Touch, pain, temperature",
+                        "D. Taste and smell"
+                    ],
+                    answer: "C",
+                    explanation: "Skin senses include touch, pain, pressure, and temperature."
+                },
+                {
+                    question: "Which sense helps maintain balance?",
+                    options: [
+                        "A. Vision",
+                        "B. Olfaction",
+                        "C. Vestibular sense",
+                        "D. Gustation"
+                    ],
+                    answer: "C",
+                    explanation: "Vestibular sense helps maintain balance and body orientation."
+                },
+                {
+                    question: "The perception of body position is called:",
+                    options: [
+                        "A. Vestibular sense",
+                        "B. Kinesthetic sense",
+                        "C. Visual sense",
+                        "D. Auditory sense"
+                    ],
+                    answer: "B",
+                    explanation: "Kinesthetic sense provides information about body movement and position."
+                },
+                {
+                    question: "Perceptual constancy means:",
+                    options: [
+                        "A. Changing perception",
+                        "B. Stable perception despite change",
+                        "C. Sensory adaptation",
+                        "D. Illusion"
+                    ],
+                    answer: "B",
+                    explanation: "Perceptual constancy is perceiving objects as stable despite changes in stimuli."
+                },
+                {
+                    question: "Size constancy refers to:",
+                    options: [
+                        "A. Color stability",
+                        "B. Shape recognition",
+                        "C. Perception of size as constant",
+                        "D. Illusion"
+                    ],
+                    answer: "C",
+                    explanation: "Size constancy means perceiving an object as the same size regardless of distance."
+                },
+                {
+                    question: "Gestalt psychology emphasizes:",
+                    options: [
+                        "A. Individual parts",
+                        "B. Whole experience",
+                        "C. Reflex actions",
+                        "D. Learning"
+                    ],
+                    answer: "B",
+                    explanation: "Gestalt psychology focuses on perception as a whole rather than parts."
+                },
+                {
+                    question: "Figure-ground perception means:",
+                    options: [
+                        "A. Depth perception",
+                        "B. Color vision",
+                        "C. Separating object from background",
+                        "D. Sensory adaptation"
+                    ],
+                    answer: "C",
+                    explanation: "Figure-ground perception is the ability to distinguish an object from its background."
+                },
+                {
+                    question: "Illusion is:",
+                    options: [
+                        "A. Correct perception",
+                        "B. False sensory experience",
+                        "C. Misinterpretation of stimuli",
+                        "D. Hallucination"
+                    ],
+                    answer: "C",
+                    explanation: "An illusion is a misinterpretation of a real external stimulus."
+                },
+                {
+                    question: "Hallucination is:",
+                    options: [
+                        "A. Real stimulus",
+                        "B. Imaginary perception",
+                        "C. Sensory adaptation",
+                        "D. Threshold"
+                    ],
+                    answer: "B",
+                    explanation: "Hallucination is perception without an external stimulus."
+                },
+                {
+                    question: "Depth perception helps us judge:",
+                    options: [
+                        "A. Color",
+                        "B. Distance",
+                        "C. Taste",
+                        "D. Smell"
+                    ],
+                    answer: "B",
+                    explanation: "Depth perception allows us to judge distance and space."
+                },
+                {
+                    question: "Monocular cues require:",
+                    options: [
+                        "A. Two eyes",
+                        "B. No eyes",
+                        "C. One eye",
+                        "D. Brain only"
+                    ],
+                    answer: "C",
+                    explanation: "Monocular cues are depth cues that require only one eye."
+                },
+                {
+                    question: "Binocular cues depend on:",
+                    options: [
+                        "A. One eye",
+                        "B. Two eyes",
+                        "C. Ear",
+                        "D. Skin"
+                    ],
+                    answer: "B",
+                    explanation: "Binocular cues are depth cues that require both eyes."
+                },
+                {
+                    question: "Perception is influenced by:",
+                    options: [
+                        "A. Experience",
+                        "B. Motivation",
+                        "C. Expectations",
+                        "D. All of the above"
+                    ],
+                    answer: "D",
+                    explanation: "Perception is shaped by experience, motivation, and expectations."
+                },
+                {
+                    question: "Sensation occurs at the level of:",
+                    options: [
+                        "A. Brain only",
+                        "B. Sense organs",
+                        "C. Muscles",
+                        "D. Hormones"
+                    ],
+                    answer: "B",
+                    explanation: "Sensation begins at the sense organ level."
+                }
+            ];
+            
+            // Chapter 3: Learning and Theories of Learning (25 questions)
+            const chapter3Questions = [
+                {
+                    question: "Learning is best defined as:",
+                    options: [
+                        "A. A permanent change in physical structure",
+                        "B. A relatively permanent change in behavior due to experience",
+                        "C. A temporary change caused by fatigue",
+                        "D. A change due to maturation"
+                    ],
+                    answer: "B",
+                    explanation: "Learning is a relatively permanent change in behavior or knowledge resulting from experience and practice."
+                },
+                {
+                    question: "Which of the following is NOT a characteristic of learning?",
+                    options: [
+                        "A. Learning is goal-directed",
+                        "B. Learning involves change",
+                        "C. Learning is always positive",
+                        "D. Learning results from experience"
+                    ],
+                    answer: "C",
+                    explanation: "Learning can be positive or negative (e.g., learning bad habits)."
+                },
+                {
+                    question: "Learning that occurs without practice or experience is called:",
+                    options: [
+                        "A. Conditioning",
+                        "B. Learning",
+                        "C. Maturation",
+                        "D. Imitation"
+                    ],
+                    answer: "C",
+                    explanation: "Maturation refers to changes due to biological growth, not learning."
+                },
+                {
+                    question: "Which principle of learning states that practice improves performance?",
+                    options: [
+                        "A. Motivation",
+                        "B. Readiness",
+                        "C. Exercise",
+                        "D. Effect"
+                    ],
+                    answer: "C",
+                    explanation: "The law of exercise states that repetition strengthens learning."
+                },
+                {
+                    question: "The law of effect was proposed by:",
+                    options: [
+                        "A. Ivan Pavlov",
+                        "B. B.F. Skinner",
+                        "C. Edward Thorndike",
+                        "D. John Watson"
+                    ],
+                    answer: "C",
+                    explanation: "Thorndike stated that behaviors followed by satisfaction are strengthened."
+                },
+                {
+                    question: "Which factor influences learning the MOST?",
+                    options: [
+                        "A. Age",
+                        "B. Intelligence",
+                        "C. Motivation",
+                        "D. All of the above"
+                    ],
+                    answer: "D",
+                    explanation: "Learning is influenced by many factors including intelligence, motivation, age, and environment."
+                },
+                {
+                    question: "Which theory explains learning in terms of stimulus–response connections?",
+                    options: [
+                        "A. Cognitive theory",
+                        "B. Behavioral theory",
+                        "C. Humanistic theory",
+                        "D. Gestalt theory"
+                    ],
+                    answer: "B",
+                    explanation: "Behavioral theory emphasizes observable behavior and S–R associations."
+                },
+                {
+                    question: "Classical conditioning was developed by:",
+                    options: [
+                        "A. Skinner",
+                        "B. Thorndike",
+                        "C. Pavlov",
+                        "D. Bandura"
+                    ],
+                    answer: "C",
+                    explanation: "Pavlov discovered learning through association between stimuli."
+                },
+                {
+                    question: "In classical conditioning, the unconditioned stimulus (UCS) is:",
+                    options: [
+                        "A. Learned stimulus",
+                        "B. Natural stimulus that produces a response",
+                        "C. Neutral stimulus",
+                        "D. Learned response"
+                    ],
+                    answer: "B",
+                    explanation: "UCS naturally and automatically triggers a response."
+                },
+                {
+                    question: "Operant conditioning mainly focuses on:",
+                    options: [
+                        "A. Association between two stimuli",
+                        "B. Association between behavior and consequence",
+                        "C. Mental processes",
+                        "D. Observation"
+                    ],
+                    answer: "B",
+                    explanation: "Operant conditioning involves learning through rewards and punishments."
+                },
+                {
+                    question: "Who proposed operant conditioning?",
+                    options: [
+                        "A. Pavlov",
+                        "B. Watson",
+                        "C. Skinner",
+                        "D. Bandura"
+                    ],
+                    answer: "C",
+                    explanation: "B.F. Skinner emphasized reinforcement and punishment."
+                },
+                {
+                    question: "Reinforcement is defined as:",
+                    options: [
+                        "A. Any stimulus that decreases behavior",
+                        "B. Any stimulus that increases behavior",
+                        "C. Removal of stimulus",
+                        "D. Neutral stimulus"
+                    ],
+                    answer: "B",
+                    explanation: "Reinforcement strengthens or increases behavior."
+                },
+                {
+                    question: "Which of the following is an example of positive reinforcement?",
+                    options: [
+                        "A. Scolding a student",
+                        "B. Removing homework",
+                        "C. Giving praise for good work",
+                        "D. Ignoring behavior"
+                    ],
+                    answer: "C",
+                    explanation: "Positive reinforcement adds something pleasant to increase behavior."
+                },
+                {
+                    question: "Punishment is intended to:",
+                    options: [
+                        "A. Increase behavior",
+                        "B. Maintain behavior",
+                        "C. Decrease behavior",
+                        "D. Shape behavior"
+                    ],
+                    answer: "C",
+                    explanation: "Punishment reduces the likelihood of a behavior."
+                },
+                {
+                    question: "Learning by observing others is called:",
+                    options: [
+                        "A. Trial and error",
+                        "B. Insight learning",
+                        "C. Observational learning",
+                        "D. Conditioning"
+                    ],
+                    answer: "C",
+                    explanation: "Observational learning occurs by watching and imitating others."
+                },
+                {
+                    question: "Social learning theory was proposed by:",
+                    options: [
+                        "A. Skinner",
+                        "B. Pavlov",
+                        "C. Bandura",
+                        "D. Thorndike"
+                    ],
+                    answer: "C",
+                    explanation: "Bandura emphasized modeling and imitation."
+                },
+                {
+                    question: "According to Bandura, learning requires:",
+                    options: [
+                        "A. Reinforcement only",
+                        "B. Attention, retention, reproduction, motivation",
+                        "C. Stimulus and response",
+                        "D. Practice only"
+                    ],
+                    answer: "B",
+                    explanation: "These four processes are necessary for observational learning."
+                },
+                {
+                    question: "Learning that occurs suddenly after understanding a problem is:",
+                    options: [
+                        "A. Trial and error",
+                        "B. Conditioning",
+                        "C. Insight learning",
+                        "D. Imitation"
+                    ],
+                    answer: "C",
+                    explanation: "Insight learning involves sudden realization of a solution."
+                },
+                {
+                    question: "Insight learning is associated with:",
+                    options: [
+                        "A. Thorndike",
+                        "B. Pavlov",
+                        "C. Kohler",
+                        "D. Skinner"
+                    ],
+                    answer: "C",
+                    explanation: "Wolfgang Köhler demonstrated insight learning using chimpanzees."
+                },
+                {
+                    question: "Cognitive learning theory emphasizes:",
+                    options: [
+                        "A. Behavior only",
+                        "B. Unconscious processes",
+                        "C. Mental processes",
+                        "D. Biological factors"
+                    ],
+                    answer: "C",
+                    explanation: "Cognitive theory focuses on thinking, memory, and problem-solving."
+                },
+                {
+                    question: "Which learning theory sees learners as active thinkers?",
+                    options: [
+                        "A. Behavioral",
+                        "B. Cognitive",
+                        "C. Classical conditioning",
+                        "D. Operant conditioning"
+                    ],
+                    answer: "B",
+                    explanation: "Cognitive theory views learners as active participants."
+                },
+                {
+                    question: "Learning that depends on rewards and punishments is:",
+                    options: [
+                        "A. Cognitive learning",
+                        "B. Insight learning",
+                        "C. Operant conditioning",
+                        "D. Observational learning"
+                    ],
+                    answer: "C",
+                    explanation: "Operant conditioning is based on consequences."
+                },
+                {
+                    question: "Which is NOT a factor influencing learning?",
+                    options: [
+                        "A. Motivation",
+                        "B. Intelligence",
+                        "C. Heredity",
+                        "D. Blood group"
+                    ],
+                    answer: "D",
+                    explanation: "Blood group has no influence on learning."
+                },
+                {
+                    question: "Trial-and-error learning is associated with:",
+                    options: [
+                        "A. Pavlov",
+                        "B. Thorndike",
+                        "C. Bandura",
+                        "D. Köhler"
+                    ],
+                    answer: "B",
+                    explanation: "Thorndike showed learning occurs through repeated attempts."
+                },
+                {
+                    question: "Learning is said to be 'relatively permanent' because:",
+                    options: [
+                        "A. It never changes",
+                        "B. It lasts for a short time",
+                        "C. It is not temporary like fatigue",
+                        "D. It occurs instantly"
+                    ],
+                    answer: "C",
+                    explanation: "Learning excludes temporary changes due to tiredness or drugs."
+                }
+            ];
+            
+            // ========== APP STATE ==========
+            let currentChapter = 1;
+            let currentMode = 'flashcards';
+            let currentCardIndex = 0;
+            let currentQuizIndex = 0;
+            let quizScore = 0;
+            let selectedOption = null;
+            let answerChecked = false;
+            let cardsStudied = 0;
+            let studyTime = 0;
+            let chapter1Score = 0;
+            let chapter2Score = 0;
+            let chapter3Score = 0;
+            
+            // ========== HELPER FUNCTIONS ==========
+            
+            function getCurrentQuestions() {
+                if (currentChapter === 1) return chapter1Questions;
+                if (currentChapter === 2) return chapter2Questions;
+                return chapter3Questions;
+            }
+            
+            function getCurrentChapterName() {
+                if (currentChapter === 1) return "Essence of Psychology";
+                if (currentChapter === 2) return "Sensation & Perception";
+                return "Learning Theories";
+            }
+            
+            function getChapterColor() {
+                if (currentChapter === 1) return "var(--chapter1)";
+                if (currentChapter === 2) return "var(--chapter2)";
+                return "var(--chapter3)";
+            }
+            
+            function getChapterBadgeClass() {
+                if (currentChapter === 1) return "chapter1-badge";
+                if (currentChapter === 2) return "chapter2-badge";
+                return "chapter3-badge";
+            }
+            
+            // ========== CHAPTER SELECTION ==========
+            
+            $('.chapter-card').click(function() {
+                const chapter = $(this).data('chapter');
+                switchChapter(chapter);
+            });
+            
+            function switchChapter(chapter) {
+                currentChapter = chapter;
+                currentCardIndex = 0;
+                currentQuizIndex = 0;
+                
+                // Update UI
+                updateChapterUI();
+                
+                // Load content based on current mode
+                if (currentMode === 'flashcards') {
+                    loadCard(currentCardIndex);
+                } else if (currentMode === 'quiz') {
+                    loadQuestion(currentQuizIndex);
+                } else if (currentMode === 'summary') {
+                    updateSummary();
+                }
+            }
+            
+            function updateChapterUI() {
+                // Update chapter card selection
+                $('.chapter-card').css('transform', 'translateY(0)');
+                $('.chapter-card').find('h4, h5').css('color', '');
+                $(`.chapter-card[data-chapter="${currentChapter}"]`).css('transform', 'translateY(-10px)');
+                $(`.chapter-card[data-chapter="${currentChapter}"] h4`).css('color', getChapterColor());
+                $(`.chapter-card[data-chapter="${currentChapter}"] h5`).css('color', getChapterColor());
+                
+                // Update chapter badge on flashcard
+                $('#card-chapter-badge').removeClass('chapter1-badge chapter2-badge chapter3-badge')
+                    .addClass(getChapterBadgeClass())
+                    .text(`Chapter ${currentChapter}`);
+                    
+                // Update quiz title
+                $('#quiz-title').text(`Chapter ${currentChapter}: ${getCurrentChapterName()} Quiz`);
+                $('#quiz-total').text(getCurrentQuestions().length);
+                
+                // Update summary title
+                $('#summary-title').text(`Chapter ${currentChapter}: ${getCurrentChapterName()} Summary`);
+            }
+            
+            // ========== STUDY MODE SELECTION ==========
+            
+            $('.mode-card').click(function() {
+                const mode = $(this).data('mode');
+                switchMode(mode);
+            });
+            
+            function switchMode(mode) {
+                currentMode = mode;
+                
+                // Update mode card selection
+                $('.mode-card').removeClass('active');
+                $(`.mode-card[data-mode="${mode}"]`).addClass('active');
+                
+                // Hide all modes
+                $('.study-mode').hide();
+                
+                // Show selected mode
+                $(`#${mode}-mode`).show();
+                
+                // Load content for the mode
+                if (mode === 'flashcards') {
+                    loadCard(currentCardIndex);
+                } else if (mode === 'quiz') {
+                    loadQuestion(currentQuizIndex);
+                    resetQuizUI();
+                } else if (mode === 'summary') {
+                    updateSummary();
+                } else if (mode === 'review') {
+                    updateReview();
+                }
+            }
+            
+            // ========== FLASHCARD FUNCTIONS ==========
+            
+            $('#flip-card').click(function() {
+                $('#flashcard').toggleClass('flipped');
+                // Show definition when card is flipped
+                if ($('#flashcard').hasClass('flipped')) {
+                    $('#card-definition-box').slideDown();
+                }
+            });
+            
+            $('#prev-card').click(function() {
+                if (currentCardIndex > 0) {
+                    currentCardIndex--;
+                    loadCard(currentCardIndex);
+                }
+            });
+            
+            $('#next-card').click(function() {
+                const questions = getCurrentQuestions();
+                if (currentCardIndex < questions.length - 1) {
+                    currentCardIndex++;
+                    loadCard(currentCardIndex);
+                }
+            });
+            
+            function loadCard(index) {
+                const questions = getCurrentQuestions();
+                if (index >= 0 && index < questions.length) {
+                    const question = questions[index];
+                    
+                    // Update card content
+                    $('#card-question').text(question.question);
+                    $('#card-answer').text(`${question.answer}. ${question.options[question.answer.charCodeAt(0) - 65]}`);
+                    $('#card-definition').html(question.explanation);
+                    
+                    // Update counter
+                    $('#card-counter').text(`Card ${index + 1}/${questions.length}`);
+                    
+                    // Reset card to front
+                    $('#flashcard').removeClass('flipped');
+                    $('#card-definition-box').hide();
+                    
+                    // Update cards studied
+                    if (index >= cardsStudied) {
+                        cardsStudied = index + 1;
+                        updateProgressBars();
+                    }
+                }
+            }
+            
+            // ========== QUIZ FUNCTIONS ==========
+            
+            $('#prev-question').click(function() {
+                if (currentQuizIndex > 0) {
+                    currentQuizIndex--;
+                    loadQuestion(currentQuizIndex);
+                    resetQuizUI();
+                }
+            });
+            
+            $('#check-answer').click(function() {
+                if (!selectedOption) {
+                    alert('Please select an answer first!');
+                    return;
+                }
+                
+                const questions = getCurrentQuestions();
+                const currentQuestion = questions[currentQuizIndex];
+                const isCorrect = selectedOption === currentQuestion.answer;
+                
+                // Disable all options
+                $('.option').css('pointer-events', 'none');
+                
+                // Mark correct/incorrect
+                $('.option').each(function() {
+                    const optionValue = $(this).data('value');
+                    if (optionValue === currentQuestion.answer) {
+                        $(this).addClass('correct');
+                    } else if (optionValue === selectedOption && !isCorrect) {
+                        $(this).addClass('incorrect');
+                    }
+                });
+                
+                // Update score if correct
+                if (isCorrect) {
+                    quizScore++;
+                    $('#quiz-score').text(quizScore);
+                    
+                    // Update chapter score
+                    if (currentChapter === 1) {
+                        chapter1Score = Math.max(chapter1Score, quizScore);
+                    } else if (currentChapter === 2) {
+                        chapter2Score = Math.max(chapter2Score, quizScore);
+                    } else {
+                        chapter3Score = Math.max(chapter3Score, quizScore);
+                    }
+                }
+                
+                // Show definition
+                $('#quiz-definition').html(currentQuestion.explanation);
+                $('#quiz-definition-box').slideDown();
+                
+                // Show next question button
+                $('#check-answer').hide();
+                $('#next-question').show();
+            });
+            
+            $('#next-question').click(function() {
+                const questions = getCurrentQuestions();
+                if (currentQuizIndex < questions.length - 1) {
+                    currentQuizIndex++;
+                    loadQuestion(currentQuizIndex);
+                    resetQuizUI();
+                } else {
+                    // Quiz completed
+                    alert(`Quiz completed! Your score: ${quizScore}/${questions.length}`);
+                    updateProgressBars();
+                    switchMode('review');
+                }
+            });
+            
+            function loadQuestion(index) {
+                const questions = getCurrentQuestions();
+                if (index >= 0 && index < questions.length) {
+                    const question = questions[index];
+                    
+                    // Update question
+                    $('#quiz-question').text(question.question);
+                    
+                    // Update options
+                    $('#quiz-options').empty();
+                    question.options.forEach((optionText, i) => {
+                        const optionValue = String.fromCharCode(65 + i);
+                        const optionElement = `
+                            <div class="option" data-value="${optionValue}">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <strong>${optionValue}</strong>
+                                    </div>
+                                    <div>${optionText}</div>
+                                </div>
+                            </div>
+                        `;
+                        $('#quiz-options').append(optionElement);
+                    });
+                    
+                    // Update progress
+                    const progress = ((index + 1) / questions.length) * 100;
+                    $('#quiz-progress').css('width', `${progress}%`);
+                    
+                    // Reset UI
+                    resetQuizUI();
+                }
+            }
+            
+            function resetQuizUI() {
+                // Enable option selection
+                $('.option').css('pointer-events', 'auto');
+                
+                // Remove selection and correctness classes
+                $('.option').removeClass('selected correct incorrect');
+                
+                // Reset selected option
+                selectedOption = null;
+                answerChecked = false;
+                
+                // Hide definition
+                $('#quiz-definition-box').hide();
+                
+                // Show check answer button, hide next question
+                $('#check-answer').show();
+                $('#next-question').hide();
+                
+                // Add click event to options
+                $('.option').off('click').click(function() {
+                    if (!answerChecked) {
+                        $('.option').removeClass('selected');
+                        $(this).addClass('selected');
+                        selectedOption = $(this).data('value');
+                    }
+                });
+            }
+            
+            // ========== SUMMARY FUNCTIONS ==========
+            
+            function updateSummary() {
+                // Hide all summaries
+                $('#chapter1-summary, #chapter2-summary, #chapter3-summary').hide();
+                
+                // Show current chapter summary
+                $(`#chapter${currentChapter}-summary`).show();
+            }
+            
+            // ========== REVIEW FUNCTIONS ==========
+            
+            function updateReview() {
+                const totalQuestions = chapter1Questions.length + chapter2Questions.length + chapter3Questions.length;
+                
+                // Update stats
+                $('#cards-studied').text(cardsStudied);
+                
+                const currentQuestions = getCurrentQuestions();
+                const quizPercentage = currentQuestions.length > 0 ? Math.round((quizScore / currentQuestions.length) * 100) : 0;
+                $('#quiz-percentage').text(`${quizPercentage}%`);
+                
+                $('#study-time').text(studyTime);
+                
+                let masteryLevel = "Beginner";
+                if (quizPercentage >= 80 && cardsStudied >= 20) {
+                    masteryLevel = "Expert";
+                } else if (quizPercentage >= 60 || cardsStudied >= 10) {
+                    masteryLevel = "Intermediate";
+                }
+                $('#mastery-level').text(masteryLevel);
+                
+                // Update chapter progress
+                const chapter1Percentage = Math.round((chapter1Score / chapter1Questions.length) * 100);
+                const chapter2Percentage = Math.round((chapter2Score / chapter2Questions.length) * 100);
+                const chapter3Percentage = Math.round((chapter3Score / chapter3Questions.length) * 100);
+                
+                $('#chapter1-percentage').text(`${chapter1Percentage}%`);
+                $('#chapter2-percentage').text(`${chapter2Percentage}%`);
+                $('#chapter3-percentage').text(`${chapter3Percentage}%`);
+                
+                $('#chapter1-progress-review').css('width', `${chapter1Percentage}%`);
+                $('#chapter2-progress-review').css('width', `${chapter2Percentage}%`);
+                $('#chapter3-progress-review').css('width', `${chapter3Percentage}%`);
+                
+                // Update focus area recommendation
+                let focusArea = "Psychology definition and goals";
+                if (currentChapter === 1) {
+                    if (quizPercentage < 60) {
+                        focusArea = "Historical schools and founders";
+                    } else if (quizPercentage < 80) {
+                        focusArea = "Modern perspectives";
+                    }
+                } else if (currentChapter === 2) {
+                    focusArea = "Sensation vs Perception distinction";
+                    if (quizPercentage < 60) {
+                        focusArea = "Key definitions and thresholds";
+                    } else if (quizPercentage < 80) {
+                        focusArea = "Applying concepts to examples";
+                    }
+                } else {
+                    focusArea = "Classical vs Operant conditioning";
+                    if (quizPercentage < 60) {
+                        focusArea = "Learning theories and founders";
+                    } else if (quizPercentage < 80) {
+                        focusArea = "Reinforcement vs punishment";
+                    }
+                }
+                $('#focus-area').text(focusArea);
+            }
+            
+            // ========== PROGRESS TRACKING ==========
+            
+            function updateProgressBars() {
+                const totalQuestions1 = chapter1Questions.length;
+                const totalQuestions2 = chapter2Questions.length;
+                const totalQuestions3 = chapter3Questions.length;
+                
+                // Update chapter progress bars on cards
+                const chapter1Progress = Math.min(100, Math.round((cardsStudied / totalQuestions1) * 100));
+                const chapter2Progress = Math.min(100, Math.round((cardsStudied / totalQuestions2) * 100));
+                const chapter3Progress = Math.min(100, Math.round((cardsStudied / totalQuestions3) * 100));
+                
+                $('#chapter1-progress-bar').css('width', `${chapter1Progress}%`);
+                $('#chapter2-progress-bar').css('width', `${chapter2Progress}%`);
+                $('#chapter3-progress-bar').css('width', `${chapter3Progress}%`);
+                
+                $('#chapter1-progress-text').text(`${chapter1Progress}% Complete`);
+                $('#chapter2-progress-text').text(`${chapter2Progress}% Complete`);
+                $('#chapter3-progress-text').text(`${chapter3Progress}% Complete`);
+            }
+            
+            // ========== INITIALIZATION ==========
+            
+            function initApp() {
+                // Initialize chapter UI
+                updateChapterUI();
+                
+                // Load first card
+                loadCard(currentCardIndex);
+                
+                // Load first question
+                loadQuestion(currentQuizIndex);
+                
+                // Update progress bars
+                updateProgressBars();
+                
+                // Start study timer
+                setInterval(function() {
+                    studyTime++;
+                    if (currentMode === 'review') {
+                        updateReview();
+                    }
+                }, 60000); // Update every minute
+            }
+            
+            // Initialize the app
+            initApp();
+        });
+    </script>
+</body>
+</html>
